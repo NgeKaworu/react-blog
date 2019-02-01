@@ -1,24 +1,33 @@
 export default {
   plugins: [
     [
-      'umi-plugin-react',
+      "umi-plugin-react",
       {
         dva: true,
         antd: true,
         dynamicImport: {
-          webpackChunkName: true,
-        },
+          webpackChunkName: true
+        }
       }
-    ],
+    ]
   ],
   proxy: {
-    '/api': {
-      'target': "http://localhost:5000",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api": "" }
+    "/api": {
+      target: "http://localhost:5000",
+      changeOrigin: true,
+      pathRewrite: { "^/api": "" }
     }
   },
-  base: '/blog/',
-  publicPath: '/blog/',
-  history: 'hash',
-}
+  base: "/blog/",
+  publicPath: "/blog/",
+  history: "hash",
+  extraBabelPlugins: [
+    [
+      "import",
+      {
+        libraryName: "highlight.js",
+        style: true
+      }
+    ]
+  ]
+};

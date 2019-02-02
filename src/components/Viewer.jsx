@@ -20,7 +20,11 @@ const Editor = ({ text }) => {
     // 插件使用规则
     md.use(tm, { delimiters: "dollars", macros: { "\\RR": "\\mathbb{R}" } });
     // markdown主要配置
-    md.options = {
+    md.set({
+      // 转化\n为 <br/>
+      breaks: true,
+      // 自动转化链接
+      linkify: true,
       typographer: true,
       // 使用highlight.js实现代码高亮
       highlight(str, lang) {
@@ -39,7 +43,7 @@ const Editor = ({ text }) => {
           "</code></pre>"
         );
       }
-    };
+    });
     return { __html: md.render(text) };
   };
   return (

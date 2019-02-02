@@ -21,13 +21,4 @@ export default {
   base: "/blog/",
   publicPath: "/blog/",
   history: "hash",
-  extraBabelPlugins: [
-    [
-      "import",
-      {
-        libraryName: "highlight.js",
-        style: true
-      }
-    ]
-  ]
 };

@@ -9,12 +9,13 @@
   "dependencies": {
     "dva": "^2.4.1",
     "highlight.js": "^9.14.2",
-    "marked": "^0.6.0",
+    "katex": "^0.10.0",
+    "markdown-it": "^8.4.2",
+    "markdown-it-texmath": "^0.5.4",
     "umi": "^2.3.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "babel-plugin-import": "^1.11.0",
     "eslint": "^4.14.0",
     "eslint-config-umi": "^0.1.1",
     "eslint-plugin-flowtype": "^2.34.1",

@@ -48,7 +48,7 @@ function Header({ location }) {
         style={{ float: 'right' }}
       >
         <Menu.Item key="plus">
-          <Link to="/add">
+          <Link to="/EditPage/">
             <Icon type="plus" />
             添加
           </Link>

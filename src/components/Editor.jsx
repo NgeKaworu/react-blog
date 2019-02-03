@@ -14,6 +14,9 @@ const { TextArea } = Input;
       }),
       content: Form.createFormField({
         value: props.content || ""
+      }),
+      upload: Form.createFormField({
+        value: props.fileList || ""
       })
     };
   }

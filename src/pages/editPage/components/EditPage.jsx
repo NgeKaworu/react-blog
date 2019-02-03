@@ -1,10 +1,11 @@
 import { connect } from "dva";
+import withRouter from "umi/withRouter";
 import React from "react";
 
 import Editor from "../../../components/Editor";
 import Viewer from "../../../components/Viewer";
-
 @connect()
+@withRouter
 class EditPage extends React.Component {
   state = {
     title: "balba",
@@ -31,13 +32,17 @@ class EditPage extends React.Component {
     ]
   };
 
+  componentWillMount() {
+    console.log(this.props);
+  }
+
   handleSubmit = value => {
     console.log(value);
   };
 
   handleChange = value => {
     this.setState({ ...value });
-    // console.log(console.log);
+    console.log(value);
   };
 
   hanldeUpload = e => {
@@ -52,6 +57,7 @@ class EditPage extends React.Component {
   };
 
   render = () => {
+    console.log(this.props);
     return (
       <>
         <Editor

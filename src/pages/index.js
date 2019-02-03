@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import EditPage from './editPage'
+import EditPage from "./editPage/$article_id$";
 function IndexPage() {
   return (
     <>

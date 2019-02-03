@@ -37,6 +37,7 @@ class EditPage extends React.Component {
 
   handleChange = value => {
     this.setState({ ...value });
+    // console.log(console.log);
   };
 
   hanldeUpload = e => {
@@ -44,6 +45,10 @@ class EditPage extends React.Component {
     const bala = e.fileList[e.fileList.length - 1];
     bala.url = "https://www.baidu.com";
     this.setState({ fileList: e.fileList });
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
 
   render = () => {

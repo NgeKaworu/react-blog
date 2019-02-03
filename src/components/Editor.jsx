@@ -96,7 +96,7 @@ class Editor extends React.Component {
               onPreview={this.handleInsert}
             >
               <Button>
-                <Icon type="upload" /> Click to upload
+                <Icon type="upload" /> 选择图片
               </Button>
             </Upload>
           )}

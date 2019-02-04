@@ -35,10 +35,18 @@ class Edit extends React.Component {
 
   handleSubmit = value => {
     const { title, content, upload: fileList } = value;
-    this.props.dispatch({
-      type: "edit/create",
-      payload: { title, content, fileList }
-    });
+    const { article_id } = this.state;
+    if (article_id) {
+      this.props.dispatch({
+        type: "edit/update",
+        payload: { id: article_id, value: { title, content, fileList } }
+      });
+    } else {
+      this.props.dispatch({
+        type: "edit/create",
+        payload: { title, content, fileList }
+      });
+    }
   };
 
   handleChange = value => {

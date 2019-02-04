@@ -12,8 +12,8 @@ export const remove = value => {
   });
 };
 
-export const put = value => {
-  return request(`${api}${value}`, {
+export const update = (id, value) => {
+  return request(`${api}${id}`, {
     method: "PUT",
     body: JSON.stringify(value)
   });

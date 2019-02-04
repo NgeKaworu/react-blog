@@ -1,4 +1,4 @@
-import fetch from 'dva/fetch';
+import fetch from "dva/fetch";
 
 function parseJSON(response) {
   return response.json();
@@ -22,7 +22,10 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  return fetch(url, {
+    ...options,
+    headers: { "Content-Type": "application/json" }
+  })
     .then(checkStatus)
     .then(parseJSON)
     .then(data => ({ data }))

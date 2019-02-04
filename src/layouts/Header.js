@@ -45,10 +45,10 @@ function Header({ location }) {
             <Avatar shape="square">Furan</Avatar>
           </Link>
         }
-        style={{ float: 'right' }}
+        style={{ float: "right" }}
       >
         <Menu.Item key="plus">
-          <Link to="/EditPage/">
+          <Link to="/edit/">
             <Icon type="plus" />
             添加
           </Link>

@@ -2,6 +2,7 @@ import { connect } from "dva";
 import React from "react";
 import Editor from "../../../components/Editor";
 import Viewer from "../../../components/Viewer";
+import immutable from "immutable";
 
 @connect(state => ({
   edit: state.edit
@@ -15,15 +16,21 @@ class Edit extends React.Component {
     fileList: []
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      prevState.title === "" ||
-      prevState.content === "" ||
-      prevState.fileList.length === 0
-    ) {
-      return nextProps.edit;
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the current height of the list so we can adjust scroll later.
+    if (!immutable.is(this.props.edit, prevProps.edit)) {
+      return { ...this.props.edit.toJS() };
     }
     return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // If we have a snapshot value, we've just added new items.
+    // Adjust scroll so these new items don't push the old ones out of view.
+    if (snapshot !== null) {
+      this.setState({ ...snapshot });
+    }
   }
 
   handleSubmit = value => {

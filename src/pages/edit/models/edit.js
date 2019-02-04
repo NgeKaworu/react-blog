@@ -1,14 +1,14 @@
 import * as editService from "../services/edit";
-
+import immutable from "immutable";
 export default {
   namespace: "edit",
-  state: {
+  state: immutable.fromJS({
     title: "",
     content: "",
     url: "",
     article_id: "",
     fileList: []
-  },
+  }),
   reducers: {
     save(
       state,
@@ -16,7 +16,7 @@ export default {
         payload: { data }
       }
     ) {
-      return { ...data };
+      return immutable.fromJS({ ...data });
     }
   },
   effects: {

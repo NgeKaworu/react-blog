@@ -2,26 +2,26 @@ import request from "../../../utils/request";
 
 const api = `/api/article/v1/`;
 
-export const fetch = value => {
-  return request(`${api}${value}`);
+export const fetch = values => {
+  return request(`${api}${values}`);
 };
 
-export const remove = value => {
-  return request(`${api}${value}`, {
+export const remove = values => {
+  return request(`${api}${values}`, {
     method: "DELETE"
   });
 };
 
-export const update = (id, value) => {
+export const update = (id, values) => {
   return request(`${api}${id}`, {
     method: "PUT",
-    body: JSON.stringify(value)
+    body: JSON.stringify(values)
   });
 };
 
-export const create = value => {
+export const create = values => {
   return request(api, {
     method: "POST",
-    body: JSON.stringify(value)
+    body: JSON.stringify(values)
   });
 };

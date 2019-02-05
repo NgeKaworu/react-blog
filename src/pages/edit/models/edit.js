@@ -35,15 +35,15 @@ export default {
     },
     *update(
       {
-        payload: { id, value }
+        payload: { id, values }
       },
       { call, put }
     ) {
-      yield call(editService.update, id, value);
+      yield call(editService.update, id, values);
       yield put({ type: "reload" });
     },
-    *create({ payload: value }, { call, put }) {
-      const { data } = yield call(editService.create, value);
+    *create({ payload: values }, { call, put }) {
+      const { data } = yield call(editService.create, values);
       yield put({ type: "fetch", payload: data.article_id });
     },
     *reload(action, { put, select }) {

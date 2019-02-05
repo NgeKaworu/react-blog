@@ -1,7 +1,8 @@
 import { Menu, Icon, Avatar } from "antd";
 import Link from "umi/link";
 
-function Header({ location }) {
+function Header({ location, user }) {
+  console.log(user);
   return (
     <Menu selectedKeys={[location.pathname]} mode="horizontal">
       <Menu.Item key="home">
@@ -42,7 +43,7 @@ function Header({ location }) {
         key="user"
         title={
           <Link to="user">
-            <Avatar shape="square">Furan</Avatar>
+            <Avatar shape="square">{user.name ? user.name : "登录"}</Avatar>
           </Link>
         }
         style={{ float: "right" }}
@@ -58,6 +59,20 @@ function Header({ location }) {
             <Icon type="setting" />
             管理
           </Link>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="login">
+          {user.token ? (
+            <Link to="/logout">
+              <Icon type="logout" />
+              退出
+            </Link>
+          ) : (
+            <Link to="/login">
+              <Icon type="login" />
+              登录
+            </Link>
+          )}
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

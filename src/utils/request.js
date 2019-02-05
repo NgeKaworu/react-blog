@@ -24,7 +24,10 @@ function checkStatus(response) {
 export default function request(url, options) {
   return fetch(url, {
     ...options,
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("token")
+    }
   })
     .then(checkStatus)
     .then(parseJSON)

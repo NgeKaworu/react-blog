@@ -33,13 +33,13 @@ class Edit extends React.Component {
     }
   }
 
-  handleSubmit = value => {
-    const { title, content, upload: fileList } = value;
+  handleSubmit = values => {
+    const { title, content, upload: fileList } = values;
     const { article_id } = this.state;
     if (article_id) {
       this.props.dispatch({
         type: "edit/update",
-        payload: { id: article_id, value: { title, content, fileList } }
+        payload: { id: article_id, values: { title, content, fileList } }
       });
     } else {
       this.props.dispatch({
@@ -49,9 +49,9 @@ class Edit extends React.Component {
     }
   };
 
-  handleChange = value => {
-    this.setState({ ...value });
-    console.log(value);
+  handleChange = values => {
+    this.setState({ ...values });
+    console.log(values);
   };
 
   hanldeUpload = e => {

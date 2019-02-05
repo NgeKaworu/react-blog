@@ -1,38 +1,57 @@
 import React from "react";
 import { Form, Icon, Input, Button } from "antd";
+import { connect } from "dva";
 
+@connect(state => ({
+  user: state.user
+}))
 @Form.create({ name: "normal_login" })
 class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        console.log(values);
+        this.props.dispatch({
+          type: "user/login",
+          payload: {
+            values
+          }
+        });
       }
     });
   };
 
   render() {
+    console.log(this.props.user);
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form onSubmit={this.handleSubmit}>
         <Form.Item>
-          {getFieldDecorator("userName", {
-            rules: [{ required: true, message: "Please input your username!" }]
+          {getFieldDecorator("email", {
+            rules: [
+              {
+                required: true,
+                type: "email",
+                message: "请输入正确邮箱!"
+              }
+            ]
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Username"
+              prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="邮箱"
+              allowClear
             />
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator("password", {
-            rules: [{ required: true, message: "Please input your Password!" }]
+          {getFieldDecorator("pwd", {
+            rules: [{ required: true, message: "请输入密码!" }]
           })(
             <Input.Password
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Password"
+              placeholder="密码"
+              allowClear
             />
           )}
         </Form.Item>

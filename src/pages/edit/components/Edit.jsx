@@ -51,7 +51,6 @@ class Edit extends React.Component {
 
   handleChange = values => {
     this.setState({ ...values });
-    console.log(values);
   };
 
   hanldeUpload = e => {

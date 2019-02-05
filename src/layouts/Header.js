@@ -2,7 +2,6 @@ import { Menu, Icon, Avatar } from "antd";
 import Link from "umi/link";
 
 function Header({ location, user }) {
-  console.log(user);
   return (
     <Menu selectedKeys={[location.pathname]} mode="horizontal">
       <Menu.Item key="home">

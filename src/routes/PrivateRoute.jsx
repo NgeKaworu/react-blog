@@ -1,8 +1,8 @@
-export default (props, ...arg) => {
-  return (
-    <div>
-      <div>PrivateRoute (routes/PrivateRoute.js)</div>
-      {props.children}
-    </div>
-  );
+import { message } from "antd";
+export default props => {
+  const token = localStorage.getItem("token");
+  if (token) return props.children;
+  message.info("请先登录");
+  props.history.push("/login");
+  return null;
 };

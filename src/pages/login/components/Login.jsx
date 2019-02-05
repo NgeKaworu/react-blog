@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Icon, Input, Button } from "antd";
 import { connect } from "dva";
+import Redirect from "umi/redirect";
 
 @connect(state => ({
   user: state.user
@@ -11,7 +12,6 @@ class Login extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         this.props.dispatch({
           type: "user/login",
           payload: {
@@ -23,7 +23,9 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props.user);
+    if (this.props.user.token) {
+      return <Redirect to="/" />;
+    }
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>

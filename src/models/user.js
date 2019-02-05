@@ -34,6 +34,8 @@ export default {
       const { data } = yield call(userService.login, values);
       if (data && data.message === "succeed") {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("uid", data.uid);
+        localStorage.setItem("name", data.name);
         yield put({ type: "save", payload: data });
       } else {
         message.error("登陆失败");
@@ -44,6 +46,8 @@ export default {
       const { data } = yield call(userService.logout, uid);
       if (data && data.message === "succeed") {
         localStorage.removeItem("token");
+        localStorage.removeItem("uid");
+        localStorage.removeItem("name");
         yield put({
           type: "save",
           payload: {

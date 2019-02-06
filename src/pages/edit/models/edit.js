@@ -55,7 +55,10 @@ export default {
     },
     *create({ payload: values }, { call, put }) {
       const { data } = yield call(editService.create, values);
-      yield put({ type: "fetch", payload: data.article_id });
+      if (data) {
+        yield put({ type: "fetch", payload: data.article_id });
+      }
+      message.error("游客仅供预览");
     },
     *reload(action, { put, select }) {
       const article_id = yield select(state =>

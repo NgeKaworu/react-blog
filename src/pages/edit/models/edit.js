@@ -1,5 +1,7 @@
 import * as editService from "../services/edit";
 import immutable from "immutable";
+import { message } from "antd";
+
 export default {
   namespace: "edit",
   state: immutable.fromJS({
@@ -37,9 +39,18 @@ export default {
       {
         payload: { id, values }
       },
-      { call, put }
+      { call, put, select }
     ) {
-      yield call(editService.update, id, values);
+      const { data } = yield call(editService.update, id, values);
+      if (!data) {
+        message.error("修改失败, 请检查登录信息");
+        const origin = yield select(state => state.edit);
+        yield put({
+          type: "save",
+          payload: { data: { ...origin.toJS(), status: "error" } }
+        });
+      }
+
       yield put({ type: "reload" });
     },
     *create({ payload: values }, { call, put }) {

@@ -43,23 +43,19 @@ export default {
     },
     *logout({ payload }, { call, put, select }) {
       const { uid } = yield select(state => state.user);
-      const { data } = yield call(userService.logout, uid);
-      if (data && data.message === "succeed") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("uid");
-        localStorage.removeItem("name");
-        yield put({
-          type: "save",
-          payload: {
-            token: "",
-            uid: "",
-            name: "",
-            message: ""
-          }
-        });
-      } else {
-        message.error("退出失败");
-      }
+      yield call(userService.logout, uid);
+      localStorage.removeItem("token");
+      localStorage.removeItem("uid");
+      localStorage.removeItem("name");
+      yield put({
+        type: "save",
+        payload: {
+          token: "",
+          uid: "",
+          name: "",
+          message: ""
+        }
+      });
     }
   },
 

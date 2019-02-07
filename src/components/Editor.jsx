@@ -65,8 +65,8 @@ class Editor extends React.Component {
   render = () => {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 }
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 }
     };
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -81,7 +81,7 @@ class Editor extends React.Component {
             getValueFromEvent: this.handleSelectChange
           })(
             <TextArea
-              autosize={{ minRows: 23, maxRows: 23 }}
+              autosize={{ minRows: 28, maxRows: 28 }}
               placeholder="内容支持markdown"
               ref={textarea => (this.textarea = textarea)}
             />
@@ -107,7 +107,7 @@ class Editor extends React.Component {
             </Upload>
           )}
         </Form.Item>
-        <Form.Item wrapperCol={{ span: 18, offset: 6 }}>
+        <Form.Item wrapperCol={{ span: 20, offset: 4 }}>
           <Button type="primary" htmlType="submit">
             保存
           </Button>

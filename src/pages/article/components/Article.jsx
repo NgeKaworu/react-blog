@@ -1,8 +1,10 @@
 import { connect } from "dva";
 import React from "react";
 import Editor from "../../../components/Editor";
-import Viewer from "../../../components/Viewer";
+import ViewerContainer from "../../../components/ViewerContainer";
 import immutable from "immutable";
+import { Row, Col } from "antd";
+import styles from "../../index.less";
 @connect(state => ({
   article: state.article
 }))
@@ -66,15 +68,30 @@ class Article extends React.Component {
 
   render = () => {
     return (
-      <>
-        <Editor
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-          onUpload={this.hanldeUpload}
-          {...this.state}
-        />
-        <Viewer text={this.state.content} title="预览" />
-      </>
+      <Row style={{ minWidth: "980px" }} gutter={24}>
+        <Col span={11} offset={1}>
+          <div className={styles.wrap}>
+            <Editor
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+              onUpload={this.hanldeUpload}
+              {...this.state}
+            />
+          </div>
+        </Col>
+        <Col span={11}>
+          <div
+            className={styles.wrap}
+            style={{ maxHeight: "1109px", overflowY: "auto" }}
+          >
+            <ViewerContainer
+              text={this.state.content}
+              title={this.state.title || "预览"}
+              className={styles.wrap}
+            />
+          </div>
+        </Col>
+      </Row>
     );
   };
 }

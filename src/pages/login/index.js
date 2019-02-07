@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import Login from "./components/Login";
+import styles from "../index.less";
 function LoginPage() {
   return (
     <div
@@ -13,12 +14,9 @@ function LoginPage() {
     >
       <div
         style={{
-          background: "rgba(0,0,0,.1)",
-          borderRadius: "5px",
-          padding: "18px",
-          minWidth: "480px",
-          boxShadow: "1px 1px 1px rgba(0,0,0,.2)"
+          minWidth: "480px"
         }}
+        className={styles.wrap}
       >
         <Login />
       </div>

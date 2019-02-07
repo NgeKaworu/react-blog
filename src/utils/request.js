@@ -21,6 +21,10 @@ function checkStatus(response) {
 
   const error = new Error(response.statusText);
   error.response = response;
+
+  response
+    .json()
+    .then(data => data && data.message && message.error(data.message));
   throw error;
 }
 

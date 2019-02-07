@@ -36,7 +36,6 @@ class Layout extends React.Component {
         <Spin spinning={loading}>
           <Content
             style={{
-              background: "rgba(171, 171, 171, .1)",
               padding: "24px 0 24px 0"
             }}
           >

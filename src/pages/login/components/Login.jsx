@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Icon, Input, Button } from "antd";
 import { connect } from "dva";
 import Redirect from "umi/redirect";
+import styles from './Login.less'
 
 @connect(state => ({
   user: state.user
@@ -54,6 +55,7 @@ class Login extends React.Component {
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               placeholder="密码"
               allowClear
+              className={styles.suffix}
             />
           )}
         </Form.Item>

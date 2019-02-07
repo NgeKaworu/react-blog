@@ -1,4 +1,4 @@
-import * as editService from "../services/edit";
+import * as articleService from "../services/article";
 import immutable from "immutable";
 import { message } from "antd";
 
@@ -10,7 +10,7 @@ const init = {
   fileList: []
 };
 export default {
-  namespace: "edit",
+  namespace: "article",
   state: immutable.fromJS(init),
   reducers: {
     save(
@@ -24,7 +24,7 @@ export default {
   },
   effects: {
     *fetch({ payload: article_id }, { call, put }) {
-      const { data } = yield call(editService.fetch, article_id);
+      const { data } = yield call(articleService.fetch, article_id);
       yield put({
         type: "save",
         payload: {
@@ -33,7 +33,7 @@ export default {
       });
     },
     *remove({ payload: id }, { call, put }) {
-      yield call(editService.remove, id);
+      yield call(articleService.remove, id);
       yield put({ type: "reload" });
     },
     *update(
@@ -42,10 +42,10 @@ export default {
       },
       { call, put, select }
     ) {
-      const { data } = yield call(editService.update, id, values);
+      const { data } = yield call(articleService.update, id, values);
       if (!data) {
         message.error("修改失败, 请检查登录信息");
-        const origin = yield select(state => state.edit);
+        const origin = yield select(state => state.article);
         yield put({
           type: "save",
           payload: { data: { ...origin.toJS(), status: "error" } }
@@ -55,16 +55,14 @@ export default {
       yield put({ type: "reload" });
     },
     *create({ payload: values }, { call, put }) {
-      const { data } = yield call(editService.create, values);
+      const { data } = yield call(articleService.create, values);
       if (data) {
         yield put({ type: "fetch", payload: data.article_id });
-      } else {
-        message.error("权限不足");
       }
     },
     *reload(action, { put, select }) {
       const article_id = yield select(state =>
-        state.edit.getIn(["article_id"])
+        state.article.getIn(["article_id"])
       );
 
       yield put({ type: "fetch", payload: article_id });
@@ -74,7 +72,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         const parmas = pathname.split("/");
-        if (parmas[1] === "edit") {
+        if (parmas[1] === "article") {
           if (parmas.length < 4 && parmas[2]) {
             const article_id = parmas[2];
             dispatch({ type: "fetch", payload: article_id });

@@ -14,7 +14,10 @@ export default {
       return history.listen(({ pathname }) => {
         const parmas = pathname.split("/");
         const page = Number(parmas[1]) || 1;
-        if (page && parmas.length < 3) {
+        if (parmas.length < 3) {
+          dispatch({ type: "fetch", payload: page });
+        }
+        if (parmas.length <= 3 && !parmas[2] && parmas[1] === "articles") {
           dispatch({ type: "fetch", payload: page });
         }
       });

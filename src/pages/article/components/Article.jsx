@@ -5,22 +5,23 @@ import Viewer from "../../../components/Viewer";
 import immutable from "immutable";
 
 @connect(state => ({
-  edit: state.edit
+  article: state.article
 }))
-class Edit extends React.Component {
+class Article extends React.Component {
   state = {
     title: "",
     content: "",
     url: "",
     article_id: "",
-    fileList: []
+    fileList: [],
+    mode: "view"
   };
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     // Are we adding new items to the list?
     // Capture the current height of the list so we can adjust scroll later.
-    if (!immutable.is(this.props.edit, prevProps.edit)) {
-      return { ...this.props.edit.toJS() };
+    if (!immutable.is(this.props.article, prevProps.article)) {
+      return { ...this.props.article.toJS() };
     }
     return null;
   }
@@ -29,7 +30,7 @@ class Edit extends React.Component {
     // If we have a snapshot value, we've just added new items.
     // Adjust scroll so these new items don't push the old ones out of view.
     if (snapshot !== null) {
-      this.setState({ ...snapshot });
+      this.setState({ ...this.state, ...snapshot });
     }
   }
 
@@ -38,12 +39,12 @@ class Edit extends React.Component {
     const { article_id } = this.state;
     if (article_id) {
       this.props.dispatch({
-        type: "edit/update",
+        type: "article/update",
         payload: { id: article_id, values: { title, content, fileList } }
       });
     } else {
       this.props.dispatch({
-        type: "edit/create",
+        type: "article/create",
         payload: { title, content, fileList }
       });
     }
@@ -73,9 +74,9 @@ class Edit extends React.Component {
           onUpload={this.hanldeUpload}
           {...this.state}
         />
-        <Viewer text={this.state.content} title='预览'/>
+        <Viewer text={this.state.content} title="预览" />
       </>
     );
   };
 }
-export default Edit;
+export default Article;

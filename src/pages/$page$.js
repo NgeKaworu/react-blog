@@ -1,2 +1,2 @@
-import ArticlePage from "./articles";
-export default () => <ArticlePage />;
+import ArticleList from "./articlelist";
+export default () => <ArticleList />;

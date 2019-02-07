@@ -73,7 +73,7 @@ class Edit extends React.Component {
           onUpload={this.hanldeUpload}
           {...this.state}
         />
-        <Viewer text={this.state.content} />
+        <Viewer text={this.state.content} title='预览'/>
       </>
     );
   };

@@ -1,11 +1,3 @@
-import React from "react";
-import Articles from "./components/articles";
-export default function ArticleList() {
-  return (
-    <>
-      <Articles />
-    </>
-  );
-}
+import ArticleList from "./components/ArticleList";
 
-ArticleList.propTypes = {};
+export default () => <ArticleList />;

@@ -11,7 +11,7 @@ import "highlight.js/styles/monokai-sublime.css";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 
-const Editor = ({ text }) => {
+const Editor = ({ text, title }) => {
   const myMarked = () => {
     // 初始化markdown
     const md = new MarkdownIt();
@@ -48,6 +48,7 @@ const Editor = ({ text }) => {
   };
   return (
     <>
+      {title && <h2>{title}</h2>}
       <div dangerouslySetInnerHTML={myMarked()} />
     </>
   );

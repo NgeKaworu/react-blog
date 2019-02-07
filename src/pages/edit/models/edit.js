@@ -2,15 +2,16 @@ import * as editService from "../services/edit";
 import immutable from "immutable";
 import { message } from "antd";
 
+const init = {
+  title: "",
+  content: "",
+  url: "",
+  article_id: "",
+  fileList: []
+};
 export default {
   namespace: "edit",
-  state: immutable.fromJS({
-    title: "",
-    content: "",
-    url: "",
-    article_id: "",
-    fileList: []
-  }),
+  state: immutable.fromJS(init),
   reducers: {
     save(
       state,
@@ -58,7 +59,7 @@ export default {
       if (data) {
         yield put({ type: "fetch", payload: data.article_id });
       } else {
-        message.error("游客仅供预览");
+        message.error("权限不足");
       }
     },
     *reload(action, { put, select }) {
@@ -80,15 +81,7 @@ export default {
           } else {
             dispatch({
               type: "save",
-              payload: {
-                data: {
-                  title: "",
-                  content: "",
-                  url: "",
-                  article_id: "",
-                  fileList: []
-                }
-              }
+              payload: { data: init }
             });
           }
         }

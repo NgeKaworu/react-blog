@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "dva";
-import ArticleList from "./articles";
+import ArticlePage from "./$page$";
 function IndexPage() {
   return (
     <>
-      <ArticleList />
+      <ArticlePage />
     </>
   );
 }

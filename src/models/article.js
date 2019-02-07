@@ -7,7 +7,8 @@ const init = {
   content: "",
   url: "",
   article_id: "",
-  fileList: []
+  fileList: [],
+  mode: "view"
 };
 export default {
   namespace: "article",
@@ -70,7 +71,8 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
+      return history.listen(({ pathname, ...arg }, ...arg2) => {
+        console.log(history, arg, arg2);
         const parmas = pathname.split("/");
         if (parmas[1] === "article") {
           if (parmas.length < 4 && parmas[2]) {

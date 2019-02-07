@@ -4,36 +4,42 @@ import { Button, Icon } from "antd";
 
 class ViewerContainer extends React.Component {
   handleDeleteClick = e => {
-    console.log(e);
+    const { onDeleteClick } = this.props;
+    onDeleteClick && onDeleteClick(e);
   };
 
   handleEditClick = e => {
-    console.log(e);
+    const { onEditClick } = this.props;
+    onEditClick && onEditClick(e);
   };
 
   handleDetailClick = e => {
-    console.log(e);
+    const { onDetailClick } = this.props;
+    onDetailClick && onDetailClick(e);
   };
 
   render() {
-    const { title, text } = this.props;
-
-    console.log(this.props);
-
+    const { title, text, remove, edit, detail } = this.props;
     return (
       <>
         <Button.Group style={{ float: "right" }}>
-          <Button size="small" onClick={this.handleEditClick}>
-            <Icon type="edit" style={{ color: "black" }} />
-          </Button>
-          <Button size="small" onClick={this.handleDeleteClick}>
-            <Icon type="delete" style={{ color: "red" }} />
-          </Button>
+          {edit && (
+            <Button size="small" onClick={this.handleEditClick}>
+              <Icon type="edit" style={{ color: "black" }} />
+            </Button>
+          )}
+          {remove && (
+            <Button size="small" onClick={this.handleDeleteClick}>
+              <Icon type="delete" style={{ color: "red" }} />
+            </Button>
+          )}
         </Button.Group>
         <Viewer title={title} text={text} />
-        <Button type="dashed" size="small" onClick={this.handleDetailClick}>
-          阅读全文
-        </Button>
+        {detail && (
+          <Button type="dashed" size="small" onClick={this.handleDetailClick}>
+            阅读全文
+          </Button>
+        )}
       </>
     );
   }

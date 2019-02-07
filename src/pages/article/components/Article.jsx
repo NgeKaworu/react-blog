@@ -3,7 +3,6 @@ import React from "react";
 import Editor from "../../../components/Editor";
 import Viewer from "../../../components/Viewer";
 import immutable from "immutable";
-
 @connect(state => ({
   article: state.article
 }))

@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, Form, Button, Upload, Icon } from "antd";
 import getIn from "../utils/getIn";
+import styles from "./Editor.less";
 const { TextArea } = Input;
 
 @Form.create({
@@ -80,7 +81,7 @@ class Editor extends React.Component {
             getValueFromEvent: this.handleSelectChange
           })(
             <TextArea
-              autosize={{ minRows: 8 }}
+              autosize={{ minRows: 23, maxRows: 23 }}
               placeholder="内容支持markdown"
               ref={textarea => (this.textarea = textarea)}
             />
@@ -97,6 +98,8 @@ class Editor extends React.Component {
               listType="picture"
               fileList={this.props.fileList}
               onPreview={this.handleInsert}
+              className={styles.upload}
+              multiple
             >
               <Button>
                 <Icon type="upload" /> 选择图片
@@ -106,7 +109,7 @@ class Editor extends React.Component {
         </Form.Item>
         <Form.Item wrapperCol={{ span: 18, offset: 6 }}>
           <Button type="primary" htmlType="submit">
-            提交
+            保存
           </Button>
         </Form.Item>
       </Form>

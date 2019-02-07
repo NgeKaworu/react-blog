@@ -34,7 +34,14 @@ class Layout extends React.Component {
       <div>
         <Header location={location} user={user} />
         <Spin spinning={loading}>
-          <Content>{children}</Content>
+          <Content
+            style={{
+              background: "rgba(171, 171, 171, .1)",
+              padding: "24px 0 24px 0"
+            }}
+          >
+            {children}
+          </Content>
         </Spin>
       </div>
     );

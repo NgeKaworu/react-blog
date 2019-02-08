@@ -3,6 +3,7 @@ import Header from "./Header";
 import { Layout as L, Spin } from "antd";
 import withRouter from "umi/withRouter";
 import { connect } from "dva";
+import Breadcrumbs from "../routes/Breakcrumbs";
 
 const { Content } = L;
 
@@ -29,11 +30,13 @@ class Layout extends React.Component {
     }
   }
   render() {
+    // console.log(this.props);
     const { children, location, loading, user } = this.props;
     return (
       <div>
         <Header location={location} user={user} />
         <Spin spinning={loading}>
+          <Breadcrumbs />
           <Content
             style={{
               padding: "24px 0 24px 0"

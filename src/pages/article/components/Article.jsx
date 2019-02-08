@@ -5,6 +5,7 @@ import ViewerContainer from "../../../components/ViewerContainer";
 import immutable from "immutable";
 import { Row, Col } from "antd";
 import styles from "../../index.less";
+import router from "umi/router";
 @connect(state => ({
   article: state.article,
   user: state.user.uid
@@ -38,6 +39,12 @@ class Article extends React.Component {
 
   componentDidMount() {
     this.setState({ ...this.props.article.toJS() });
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      mode: "view"
+    });
   }
 
   handleSubmit = values => {
@@ -75,8 +82,9 @@ class Article extends React.Component {
   };
 
   handleEditClick = e => {
-    this.setState({
-      mode: "edit"
+    router.replace({
+      pathname: `/article/${this.state.article_id}`,
+      state: { mode: "edit" }
     });
   };
 
@@ -88,7 +96,7 @@ class Article extends React.Component {
   };
 
   render = () => {
-    const { mode, content, title, owner } = this.state;
+    const { mode, content, title, owner, article_id } = this.state;
     const { user } = this.props;
     return (
       <Row style={{ minWidth: "980px" }} gutter={24}>
@@ -111,9 +119,9 @@ class Article extends React.Component {
           >
             <ViewerContainer
               text={content}
-              title={title || "预览"}
+              title={title || "新建"}
               className={styles.wrap}
-              remove={owner === user}
+              remove={owner === user && article_id}
               edit={owner === user && mode !== "edit"}
               onEditClick={this.handleEditClick}
               onRemoveClick={this.handleRemoveClick}

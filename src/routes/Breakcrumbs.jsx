@@ -1,7 +1,7 @@
 import Link from "umi/link";
 import { Breadcrumb } from "antd";
 import withBreadcrumbs from "react-router-breadcrumbs-hoc";
-
+import React from "react";
 // 更多配置请移步 https://github.com/icd2k3/react-router-breadcrumbs-hoc
 const routes = [
   { path: "/", breadcrumb: "首页" },
@@ -24,8 +24,8 @@ const routes = [
 export default withBreadcrumbs(routes)(({ breadcrumbs }) => (
   <Breadcrumb>
     {breadcrumbs.map(breadcrumb => (
-      <>
-        <Breadcrumb.Item key={breadcrumb.key}>
+      <React.Fragment key={breadcrumb.key}>
+        <Breadcrumb.Item>
           <Link to={breadcrumb.props.match.url}>{breadcrumb}</Link>
         </Breadcrumb.Item>
         {breadcrumb.props.match.path === "/article/" &&
@@ -35,7 +35,7 @@ export default withBreadcrumbs(routes)(({ breadcrumbs }) => (
               <Link to={breadcrumb.props.match.url}>新建</Link>{" "}
             </Breadcrumb.Item>
           )}
-      </>
+      </React.Fragment>
     ))}
   </Breadcrumb>
 ));

@@ -6,7 +6,8 @@ import immutable from "immutable";
 import { Row, Col } from "antd";
 import styles from "../../index.less";
 @connect(state => ({
-  article: state.article
+  article: state.article,
+  user: state.user.uid
 }))
 class Article extends React.Component {
   state = {
@@ -53,6 +54,10 @@ class Article extends React.Component {
         payload: { title, content, fileList }
       });
     }
+
+    this.setState({
+      mode: "view"
+    });
   };
 
   handleChange = values => {
@@ -70,28 +75,51 @@ class Article extends React.Component {
     return e && e.fileList;
   };
 
+  handleEditClick = e => {
+    console.log(e);
+    this.setState({
+      mode: "edit"
+    });
+  };
+
+  handleRemoveClick = e => {
+    this.props.dispatch({
+      type: "article/remove",
+      payload: this.state.article_id
+    });
+  };
+
   render = () => {
+    console.log(this.props, this.state);
+    const { mode, content, title, owner } = this.state;
+    const { user } = this.props;
     return (
       <Row style={{ minWidth: "980px" }} gutter={24}>
-        <Col span={11} offset={1}>
-          <div className={styles.wrap}>
-            <Editor
-              onChange={this.handleChange}
-              onSubmit={this.handleSubmit}
-              onUpload={this.hanldeUpload}
-              {...this.state}
-            />
-          </div>
-        </Col>
-        <Col span={11}>
+        {mode === "edit" && (
+          <Col span={11} offset={1}>
+            <div className={styles.wrap}>
+              <Editor
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
+                onUpload={this.hanldeUpload}
+                {...this.state}
+              />
+            </div>
+          </Col>
+        )}
+        <Col span={mode === "edit" ? 11 : 12} offset={mode === "edit" ? 0 : 6}>
           <div
             className={styles.wrap}
             style={{ maxHeight: "1109px", overflowY: "auto" }}
           >
             <ViewerContainer
-              text={this.state.content}
-              title={this.state.title || "预览"}
+              text={content}
+              title={title || "预览"}
               className={styles.wrap}
+              remove={owner === user}
+              edit={owner === user && mode !== "edit"}
+              onEditClick={this.handleEditClick}
+              onRemoveClick={this.handleRemoveClick}
             />
           </div>
         </Col>

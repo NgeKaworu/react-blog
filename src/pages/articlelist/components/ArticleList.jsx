@@ -13,17 +13,17 @@ class ArticleList extends React.Component {
     });
   };
 
-  handleDetailClick = (e, article_id) => {
-    router.push({
-      pathname: `/article/${article_id}`,
-      state: { mode: "view" }
-    });
-  };
-
   handleRemoveClick = (e, article_id) => {
     this.props.dispatch({
       type: "article/remove",
       payload: article_id
+    });
+  };
+
+  handleDetailClick = (e, article_id) => {
+    router.push({
+      pathname: `/article/${article_id}`,
+      state: { mode: "view" }
     });
   };
 

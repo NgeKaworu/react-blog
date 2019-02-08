@@ -2,12 +2,12 @@ import request from "../utils/request";
 
 const api = `/api/article/v1/`;
 
-export const fetch = values => {
-  return request(`${api}${values}`);
+export const fetch = id => {
+  return request(`${api}${id}`);
 };
 
-export const remove = values => {
-  return request(`${api}${values}`, {
+export const remove = id => {
+  return request(`${api}${id}`, {
     method: "DELETE"
   });
 };

@@ -8,8 +8,9 @@ const init = {
   url: "",
   article_id: "",
   fileList: [],
-  mode: "view"
+  mode: "edit"
 };
+
 export default {
   namespace: "article",
   state: immutable.fromJS(init),
@@ -23,20 +24,29 @@ export default {
       return immutable.fromJS({ ...data });
     }
   },
+
   effects: {
-    *fetch({ payload: article_id }, { call, put }) {
+    *fetch(
+      {
+        payload: { article_id, mode = "view" }
+      },
+      { call, put }
+    ) {
       const { data } = yield call(articleService.fetch, article_id);
       yield put({
         type: "save",
         payload: {
-          data
+          data: { ...data, mode }
         }
       });
     },
+
     *remove({ payload: id }, { call, put }) {
       yield call(articleService.remove, id);
-      yield put({ type: "reload" });
+      yield put({ type: "save", payload: { data: init } });
+      yield put({ type: "page/reload" });
     },
+
     *update(
       {
         payload: { id, values }
@@ -55,29 +65,37 @@ export default {
 
       yield put({ type: "reload" });
     },
+
     *create({ payload: values }, { call, put }) {
       const { data } = yield call(articleService.create, values);
       if (data) {
-        yield put({ type: "fetch", payload: data.article_id });
+        yield put({
+          type: "fetch",
+          payload: { article_id: data.article_id, mode: "view" }
+        });
       }
     },
-    *reload(action, { put, select }) {
-      const article_id = yield select(state =>
-        state.article.getIn(["article_id"])
-      );
 
-      yield put({ type: "fetch", payload: article_id });
+    *reload(action, { put, select }) {
+      const { article_id, mode } = yield select(state => ({
+        article_id: state.article.getIn(["article_id"]),
+        mode: state.article.getIn(["mode"])
+      }));
+      yield put({ type: "fetch", payload: { article_id, mode } });
     }
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, ...arg }, ...arg2) => {
-        console.log(history, arg, arg2);
+      return history.listen(({ pathname, state }) => {
         const parmas = pathname.split("/");
         if (parmas[1] === "article") {
           if (parmas.length < 4 && parmas[2]) {
             const article_id = parmas[2];
-            dispatch({ type: "fetch", payload: article_id });
+            const mode = state && state.mode;
+            dispatch({
+              type: "fetch",
+              payload: { article_id, mode }
+            });
           } else {
             dispatch({
               type: "save",

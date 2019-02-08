@@ -3,9 +3,9 @@ import React from "react";
 import { Button, Icon } from "antd";
 
 class ViewerContainer extends React.Component {
-  handleDeleteClick = e => {
-    const { onDeleteClick } = this.props;
-    onDeleteClick && onDeleteClick(e);
+  handleRemoveClick = e => {
+    const { onRemoveClick } = this.props;
+    onRemoveClick && onRemoveClick(e);
   };
 
   handleEditClick = e => {
@@ -29,7 +29,7 @@ class ViewerContainer extends React.Component {
             </Button>
           )}
           {remove && (
-            <Button size="small" onClick={this.handleDeleteClick}>
+            <Button size="small" onClick={this.handleRemoveClick}>
               <Icon type="delete" style={{ color: "red" }} />
             </Button>
           )}

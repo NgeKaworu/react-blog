@@ -21,7 +21,6 @@ class Article extends React.Component {
   getSnapshotBeforeUpdate(prevProps, prevState) {
     // Are we adding new items to the list?
     // Capture the current height of the list so we can adjust scroll later.
-    console.log(this.props.article, prevProps.article);
     if (!immutable.is(this.props.article, prevProps.article)) {
       return { ...this.props.article.toJS() };
     }
@@ -72,7 +71,6 @@ class Article extends React.Component {
   };
 
   render = () => {
-    console.log(this.props, this.state);
     return (
       <Row style={{ minWidth: "980px" }} gutter={24}>
         <Col span={11} offset={1}>

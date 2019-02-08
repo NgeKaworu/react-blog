@@ -1,4 +1,5 @@
 import * as pageService from "../services/page";
+
 const init = {
   page: 0,
   total: 0,
@@ -24,13 +25,18 @@ export default {
   effects: {
     *fetch({ payload: page }, { call, put }) {
       const { data } = yield call(pageService.fetch, page);
-      yield put({ type: "save", payload: { ...data, page } });
+      yield put({ type: "save", payload: { ...(data || { list: [] }), page } });
+    },
+
+    *reload(action, { put, select }) {
+      const page = yield select(state => state.page.page);
+      yield put({ type: "fetch", payload: page });
     }
   },
 
   reducers: {
     save(state, action) {
-      return { ...state, ...action.payload };
+      return action.payload;
     }
   }
 };

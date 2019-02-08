@@ -6,20 +6,28 @@ import router from "umi/router";
 
 @connect(state => ({ page: state.page, user: state.user.uid }))
 class ArticleList extends React.Component {
-  handleDetailClick = (e, article_id) => {
-    console.log(article_id);
-    router.push(`/article/${article_id}`);
+  handleEditClick = (e, article_id) => {
+    router.push({
+      pathname: `/article/${article_id}`,
+      state: { mode: "edit" }
+    });
   };
 
   handleDetailClick = (e, article_id) => {
-    console.log(article_id);
     router.push({
       pathname: `/article/${article_id}`,
-      state: '2333'
+      state: { mode: "view" }
     });
   };
+
+  handleRemoveClick = (e, article_id) => {
+    this.props.dispatch({
+      type: "article/remove",
+      payload: article_id
+    });
+  };
+
   render() {
-    console.log(this.props);
     const { user } = this.props;
     const { list } = this.props.page;
     return (
@@ -33,6 +41,8 @@ class ArticleList extends React.Component {
               remove={i.owner === user}
               edit={i.owner === user}
               onDetailClick={e => this.handleDetailClick(e, i._id)}
+              onEditClick={e => this.handleEditClick(e, i._id)}
+              onRemoveClick={e => this.handleRemoveClick(e, i._id)}
             />
           </div>
         ))}

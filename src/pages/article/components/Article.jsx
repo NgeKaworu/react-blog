@@ -48,18 +48,17 @@ class Article extends React.Component {
         type: "article/update",
         payload: { id: article_id, values: { title, content, fileList } }
       });
+
+      this.setState({
+        mode: "view"
+      });
     } else {
       this.props.dispatch({
         type: "article/create",
         payload: { title, content, fileList }
       });
     }
-
-    this.setState({
-      mode: "view"
-    });
   };
-
   handleChange = values => {
     this.setState({ ...values });
   };
@@ -76,7 +75,6 @@ class Article extends React.Component {
   };
 
   handleEditClick = e => {
-    console.log(e);
     this.setState({
       mode: "edit"
     });
@@ -90,7 +88,6 @@ class Article extends React.Component {
   };
 
   render = () => {
-    console.log(this.props, this.state);
     const { mode, content, title, owner } = this.state;
     const { user } = this.props;
     return (

@@ -2,12 +2,15 @@ import React from "react";
 import { Form, Icon, Input, Button } from "antd";
 import { connect } from "dva";
 import Redirect from "umi/redirect";
-import styles from './Login.less'
+import withRouter from "umi/withRouter";
+import styles from "./Login.less";
+import getIn from "../../../utils/getIn";
 
 @connect(state => ({
   user: state.user
 }))
 @Form.create({ name: "normal_login" })
+@withRouter
 class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
@@ -25,7 +28,8 @@ class Login extends React.Component {
 
   render() {
     if (this.props.user.token) {
-      return <Redirect to="/" />;
+      const from = getIn(this, ["props", "location", "state", "from"]) || "/";
+      return <Redirect to={from} />;
     }
     const { getFieldDecorator } = this.props.form;
     return (

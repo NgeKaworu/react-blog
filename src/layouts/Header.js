@@ -67,7 +67,12 @@ function Header({ location, user }) {
               退出
             </Link>
           ) : (
-            <Link to="/login">
+            <Link
+              to={{
+                pathname: "/login",
+                state: { from: location.pathname }
+              }}
+            >
               <Icon type="login" />
               登录
             </Link>

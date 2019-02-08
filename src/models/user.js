@@ -1,15 +1,15 @@
 import * as userService from "../services/user";
 import { message } from "antd";
-
+const init = {
+  token: "",
+  uid: "",
+  name: "",
+  message: ""
+};
 export default {
   namespace: "user",
 
-  state: {
-    token: "",
-    uid: "",
-    name: "",
-    message: ""
-  },
+  state: init,
 
   subscriptions: {
     setup({ dispatch, history }) {
@@ -18,7 +18,7 @@ export default {
           dispatch({
             type: "logout"
           });
-          history.push("/");
+          history.replace("/");
         }
       });
     }
@@ -41,6 +41,7 @@ export default {
         message.error("登陆失败");
       }
     },
+
     *logout({ payload }, { call, put, select }) {
       const { uid } = yield select(state => state.user);
       yield call(userService.logout, uid);
@@ -49,12 +50,7 @@ export default {
       localStorage.removeItem("name");
       yield put({
         type: "save",
-        payload: {
-          token: "",
-          uid: "",
-          name: "",
-          message: ""
-        }
+        payload: init
       });
     }
   },

@@ -9,7 +9,6 @@ const routes = [
   {
     path: "/article/:id?",
     breadcrumb: ({ location }) => {
-      console.log(location);
       const mode =
         (location && location.state && location.state.mode) || "view";
       const map = {

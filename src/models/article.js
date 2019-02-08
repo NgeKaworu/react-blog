@@ -42,7 +42,7 @@ export default {
           }
         });
       } else {
-        router.push("/");
+        router.replace("/");
       }
     },
 
@@ -73,11 +73,13 @@ export default {
     },
 
     *reload(action, { put, select }) {
-      const { article_id, mode } = yield select(state => ({
-        article_id: state.article.getIn(["article_id"]),
-        mode: state.article.getIn(["mode"])
-      }));
-      yield put({ type: "fetch", payload: { article_id, mode } });
+      const article_id = yield select(state =>
+        state.article.getIn(["article_id"])
+      );
+      router.replace({
+        pathname: `/article/${article_id}`,
+        state: { mode: "view" }
+      });
     }
   },
   subscriptions: {

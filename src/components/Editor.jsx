@@ -64,18 +64,14 @@ class Editor extends React.Component {
 
   render = () => {
     const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    };
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Item label="标题" {...formItemLayout}>
+        <Form.Item label="标题">
           {getFieldDecorator("title", {
             rules: [{ required: true, message: "请输入标题" }]
           })(<Input placeholder="请输入标题" />)}
         </Form.Item>
-        <Form.Item label="内容" {...formItemLayout}>
+        <Form.Item label="内容">
           {getFieldDecorator("content", {
             rules: [{ required: true, message: "内容不能为空" }],
             getValueFromEvent: this.handleSelectChange
@@ -87,7 +83,7 @@ class Editor extends React.Component {
             />
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="上传图片">
+        <Form.Item label="上传图片">
           {getFieldDecorator("upload", {
             getValueFromEvent: this.props.onUpload
           })(
@@ -107,7 +103,7 @@ class Editor extends React.Component {
             </Upload>
           )}
         </Form.Item>
-        <Form.Item wrapperCol={{ span: 20, offset: 4 }}>
+        <Form.Item>
           <Button type="primary" htmlType="submit">
             保存
           </Button>

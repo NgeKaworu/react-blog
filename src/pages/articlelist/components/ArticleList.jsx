@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import ViewerContainer from "../../../components/ViewerContainer";
-import styles from "./ArticleList.less";
+import styles from "../../index.less";
 import router from "umi/router";
 
 @connect(state => ({ page: state.page, user: state.user.uid }))

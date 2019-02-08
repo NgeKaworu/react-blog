@@ -5,6 +5,7 @@ import React from "react";
 // 更多配置请移步 https://github.com/icd2k3/react-router-breadcrumbs-hoc
 const routes = [
   { path: "/", breadcrumb: "首页" },
+  { path: "/login", breadcrumb: "登录" },
   { path: "/article/", breadcrumb: "文章" },
   {
     path: "/article/:id?",

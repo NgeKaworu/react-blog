@@ -3,12 +3,13 @@ import React from "react";
 import Editor from "../../../components/Editor";
 import ViewerContainer from "../../../components/ViewerContainer";
 import immutable from "immutable";
-import { Row, Col } from "antd";
+import { Row, Col, Skeleton } from "antd";
 import styles from "../../index.less";
 import router from "umi/router";
 @connect(state => ({
   article: state.article,
-  user: state.user.uid
+  user: state.user.uid,
+  loading: state.loading.models.article
 }))
 class Article extends React.Component {
   state = {
@@ -48,23 +49,24 @@ class Article extends React.Component {
   }
 
   handleSubmit = values => {
-    const { title, content, upload: fileList } = values;
-    const { article_id } = this.state;
-    if (article_id) {
-      this.props.dispatch({
-        type: "article/update",
-        payload: { id: article_id, values: { title, content, fileList } }
-      });
+    console.log(values);
+    // const { title, content, upload: fileList } = values;
+    // const { article_id } = this.state;
+    // if (article_id) {
+    //   this.props.dispatch({
+    //     type: "article/update",
+    //     payload: { id: article_id, values: { title, content, fileList } }
+    //   });
 
-      this.setState({
-        mode: "view"
-      });
-    } else {
-      this.props.dispatch({
-        type: "article/create",
-        payload: { title, content, fileList }
-      });
-    }
+    //   this.setState({
+    //     mode: "view"
+    //   });
+    // } else {
+    //   this.props.dispatch({
+    //     type: "article/create",
+    //     payload: { title, content, fileList }
+    //   });
+    // }
   };
   handleChange = values => {
     this.setState({ ...values });
@@ -97,38 +99,40 @@ class Article extends React.Component {
 
   render = () => {
     const { mode, content, title, owner, article_id } = this.state;
-    const { user } = this.props;
+    const { user, loading } = this.props;
     return (
-      <Row style={{ minWidth: "980px" }} gutter={24}>
-        {mode === "edit" && (
-          <Col span={11} offset={1}>
-            <div className={styles.wrap}>
-              <Editor
-                onChange={this.handleChange}
-                onSubmit={this.handleSubmit}
-                onUpload={this.hanldeUpload}
-                {...this.state}
+      <Skeleton loading={loading} avatar active>
+        <Row gutter={24}>
+          {mode === "edit" && (
+            <Col span={12}>
+              <div className={styles.wrap}>
+                <Editor
+                  onChange={this.handleChange}
+                  onSubmit={this.handleSubmit}
+                  onUpload={this.hanldeUpload}
+                  {...this.state}
+                />
+              </div>
+            </Col>
+          )}
+          <Col span={mode === "edit" ? 12 : 24}>
+            <div
+              className={styles.wrap}
+              style={{ maxHeight: "1109px", overflowY: "auto" }}
+            >
+              <ViewerContainer
+                text={content}
+                title={title || "新建"}
+                className={styles.wrap}
+                remove={owner === user && article_id}
+                edit={owner === user && mode !== "edit"}
+                onEditClick={this.handleEditClick}
+                onRemoveClick={this.handleRemoveClick}
               />
             </div>
           </Col>
-        )}
-        <Col span={mode === "edit" ? 11 : 12} offset={mode === "edit" ? 0 : 6}>
-          <div
-            className={styles.wrap}
-            style={{ maxHeight: "1109px", overflowY: "auto" }}
-          >
-            <ViewerContainer
-              text={content}
-              title={title || "新建"}
-              className={styles.wrap}
-              remove={owner === user && article_id}
-              edit={owner === user && mode !== "edit"}
-              onEditClick={this.handleEditClick}
-              onRemoveClick={this.handleRemoveClick}
-            />
-          </div>
-        </Col>
-      </Row>
+        </Row>
+      </Skeleton>
     );
   };
 }

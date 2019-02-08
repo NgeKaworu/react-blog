@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { Layout as L, Spin } from "antd";
+import { Layout as L, Spin, Col, Row } from "antd";
 import withRouter from "umi/withRouter";
 import { connect } from "dva";
 import Breadcrumbs from "../routes/Breakcrumbs";
@@ -35,16 +35,21 @@ class Layout extends React.Component {
     return (
       <div>
         <Header location={location} user={user} />
-        <Spin spinning={loading}>
-          <Breadcrumbs />
-          <Content
-            style={{
-              padding: "24px 0 24px 0"
-            }}
-          >
-            {children}
-          </Content>
-        </Spin>
+        <Content
+          style={{
+            padding: "24px 0 24px 0",
+            minWidth: "900px"
+          }}
+        >
+          <Row type="flex" justify="center">
+            <Col span={16}>
+              <Spin spinning={loading}>
+                <Breadcrumbs />
+                {children}
+              </Spin>
+            </Col>
+          </Row>
+        </Content>
       </div>
     );
   }

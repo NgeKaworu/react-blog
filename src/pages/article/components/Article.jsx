@@ -6,20 +6,20 @@ import immutable from "immutable";
 import { Row, Col, Skeleton } from "antd";
 import styles from "../../index.less";
 import router from "umi/router";
+import request from "../../../utils/request";
+
 @connect(state => ({
   article: state.article,
   user: state.user.uid,
+  token: state.user.token,
   loading: state.loading.models.article
 }))
 class Article extends React.Component {
-  state = {
-    title: "",
-    content: "",
-    url: "",
-    article_id: "",
-    fileList: [],
-    mode: "view"
-  };
+  constructor(props) {
+    super(props);
+    const init = { ...this.props.article.toJS() };
+    this.state = { ...init, fileListCache: init.fileList };
+  }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     // Are we adding new items to the list?
@@ -38,45 +38,58 @@ class Article extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({ ...this.props.article.toJS() });
-  }
-
   componentWillUnmount() {
-    this.setState({
-      mode: "view"
-    });
+    clearTimeout(this.timer);
   }
 
   handleSubmit = values => {
-    console.log(values);
-    // const { title, content, upload: fileList } = values;
-    // const { article_id } = this.state;
-    // if (article_id) {
-    //   this.props.dispatch({
-    //     type: "article/update",
-    //     payload: { id: article_id, values: { title, content, fileList } }
-    //   });
-
-    //   this.setState({
-    //     mode: "view"
-    //   });
-    // } else {
-    //   this.props.dispatch({
-    //     type: "article/create",
-    //     payload: { title, content, fileList }
-    //   });
-    // }
+    const { title, content, upload } = values;
+    const fileList = upload.filter(
+      file => !file.status || file.status === "done"
+    );
+    const { article_id } = this.state;
+    if (article_id) {
+      this.props.dispatch({
+        type: "article/update",
+        payload: { id: article_id, values: { title, content, fileList } }
+      });
+      this.setState({
+        mode: "view"
+      });
+    } else {
+      this.props.dispatch({
+        type: "article/create",
+        payload: { title, content, fileList }
+      });
+    }
   };
+
   handleChange = values => {
     this.setState({ ...values });
   };
 
-  hanldeUpload = e => {
-    console.log("Upload event:", e);
-    const bala = e.fileList[e.fileList.length - 1];
-    bala.url = "https://www.baidu.com";
+  handleUpload = e => {
     this.setState({ fileList: e.fileList });
+
+    const { status } = e.file;
+    if (status === "done") {
+      const { response, name } = e.file;
+      const { url, f_id } = response;
+      this.setState({
+        fileListCache: [
+          ...this.state.fileListCache,
+          { url: `/api/${url}`, uid: f_id, name }
+        ]
+      });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(
+        () =>
+          this.setState({
+            fileList: this.state.fileListCache
+          }),
+        500
+      );
+    }
     if (Array.isArray(e)) {
       return e;
     }
@@ -97,9 +110,23 @@ class Article extends React.Component {
     });
   };
 
+  handleFileRemove = e => {
+    async function removefile() {
+      await request(`/api/files/v1/${e.uid}`, {
+        method: "DELETE"
+      });
+    }
+    const newList = this.state.fileListCache.filter(file => file.uid !== e.uid);
+    this.setState({
+      fileListCache: newList
+    });
+    removefile();
+  };
+
   render = () => {
     const { mode, content, title, owner, article_id } = this.state;
-    const { user, loading } = this.props;
+    const { user, loading, token } = this.props;
+
     return (
       <Skeleton loading={loading} avatar active>
         <Row gutter={24}>
@@ -107,9 +134,11 @@ class Article extends React.Component {
             <Col span={12}>
               <div className={styles.wrap}>
                 <Editor
+                  token={token}
                   onChange={this.handleChange}
                   onSubmit={this.handleSubmit}
-                  onUpload={this.hanldeUpload}
+                  onUpload={this.handleUpload}
+                  onFileRemove={this.handleFileRemove}
                   {...this.state}
                 />
               </div>

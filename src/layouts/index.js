@@ -30,7 +30,6 @@ class Layout extends React.Component {
     }
   }
   render() {
-    // console.log(this.props);
     const { children, location, loading, user } = this.props;
     return (
       <div>

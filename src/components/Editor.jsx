@@ -2,6 +2,7 @@ import React from "react";
 import { Input, Form, Button, Upload, Icon } from "antd";
 import getIn from "../utils/getIn";
 import styles from "./Editor.less";
+
 const { TextArea } = Input;
 
 @Form.create({
@@ -33,6 +34,7 @@ class Editor extends React.Component {
   };
 
   handleInsert = e => {
+    if (!e.url) return;
     const node = getIn(this.textarea, ["textAreaRef"]);
     const myValue = `\n![${e.name}](${e.url})`;
     if (document.selection) {
@@ -89,12 +91,15 @@ class Editor extends React.Component {
           })(
             <Upload
               name="file"
-              // action="/api/files/v1/upload"
-              action="/upload.do"
+              action="/api/files/v1/upload"
               listType="picture"
-              fileList={this.props.fileList}
-              onPreview={this.handleInsert}
               className={styles.upload}
+              fileList={this.props.fileList}
+              onRemove={this.props.onFileRemove}
+              onPreview={this.handleInsert}
+              headers={{
+                Authorization: this.props.token
+              }}
               multiple
             >
               <Button>

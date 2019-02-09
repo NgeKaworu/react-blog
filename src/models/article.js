@@ -72,13 +72,14 @@ export default {
       }
     },
 
-    *reload(action, { put, select }) {
+    *reload(action, { select, put }) {
       const article_id = yield select(state =>
         state.article.getIn(["article_id"])
       );
-      router.replace({
-        pathname: `/article/${article_id}`,
-        state: { mode: "view" }
+
+      yield put({
+        type: "fetch",
+        payload: { article_id }
       });
     }
   },

@@ -13,7 +13,7 @@ export default {
   ],
   proxy: {
     "/api": {
-      target: "http://api.furan.xyz/",
+      target: "http://localhost:5000/",
       changeOrigin: true,
       pathRewrite: { "^/api": "" }
     }

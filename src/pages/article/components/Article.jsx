@@ -44,7 +44,7 @@ class Article extends React.Component {
 
   handleSubmit = values => {
     const { title, content, upload } = values;
-    const fileList = upload.filter(
+    const fileList = upload && upload.filter(
       file => !file.status || file.status === "done"
     );
     const { article_id } = this.state;

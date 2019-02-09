@@ -44,9 +44,8 @@ class Article extends React.Component {
 
   handleSubmit = values => {
     const { title, content, upload } = values;
-    const fileList = upload && upload.filter(
-      file => !file.status || file.status === "done"
-    );
+    const fileList =
+      upload && upload.filter(file => !file.status || file.status === "done");
     const { article_id } = this.state;
     if (article_id) {
       this.props.dispatch({
@@ -116,7 +115,9 @@ class Article extends React.Component {
         method: "DELETE"
       });
     }
-    const newList = this.state.fileListCache.filter(file => file.uid !== e.uid);
+    const { fileListCache } = this.state;
+    const newList =
+      fileListCache && fileListCache.filter(file => file.uid !== e.uid);
     this.setState({
       fileListCache: newList
     });

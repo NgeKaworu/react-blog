@@ -64,6 +64,39 @@ class Editor extends React.Component {
     });
   };
 
+  handleKeyDown = e => {
+    const node = getIn(this.textarea, ["textAreaRef"]);
+    if (e.keyCode === 9) {
+      e.preventDefault();
+      const myValue = `    `;
+      if (document.selection) {
+        //IE support
+        node.focus();
+        let sel = document.selection.createRange();
+        sel.text = myValue;
+        sel.select();
+      } else if (node.selectionStart || node.selectionStart === 0) {
+        //MOZILLA/NETSCAPE support
+        const startPos = node.selectionStart;
+        const endPos = node.selectionEnd;
+        const beforeValue = node.value.substring(0, startPos);
+        const afterValue = node.value.substring(endPos, node.value.length);
+
+        node.value = beforeValue + myValue + afterValue;
+
+        node.selectionStart = startPos + myValue.length;
+        node.selectionEnd = startPos + myValue.length;
+        node.focus();
+      } else {
+        node.value += myValue;
+        node.focus();
+      }
+      this.props.onChange({
+        content: node.value
+      });
+    }
+  };
+
   render = () => {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -82,6 +115,7 @@ class Editor extends React.Component {
               autosize={{ minRows: 28, maxRows: 28 }}
               placeholder="内容支持markdown"
               ref={textarea => (this.textarea = textarea)}
+              onKeyDown={this.handleKeyDown}
             />
           )}
         </Form.Item>

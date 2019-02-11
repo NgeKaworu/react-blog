@@ -1,6 +1,5 @@
 import * as articleService from "../services/article";
 import immutable from "immutable";
-import { message } from "antd";
 import router from "umi/router";
 
 const init = {
@@ -46,10 +45,8 @@ export default {
       }
     },
 
-    *remove({ payload: id }, { call, put }) {
+    *remove({ payload: id }, { call }) {
       yield call(articleService.remove, id);
-      yield put({ type: "reload" });
-      yield put({ type: "page/reload" });
     },
 
     *update(
@@ -72,14 +69,13 @@ export default {
       }
     },
 
-    *reload(action, { select, put }) {
+    *reload(action, { select }) {
       const article_id = yield select(state =>
         state.article.getIn(["article_id"])
       );
-
-      yield put({
-        type: "fetch",
-        payload: { article_id }
+      router.replace({
+        pathname: `/article/${article_id}`,
+        state: { mode: "view" }
       });
     }
   },

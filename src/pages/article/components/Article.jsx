@@ -53,6 +53,7 @@ class Article extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.timer);
     clearTimeout(this.scrollTimer);
+    clearTimeout(this.changeTimer);
     window.removeEventListener("scroll", this.handleWindowScroll);
   }
 
@@ -80,7 +81,8 @@ class Article extends React.Component {
   };
 
   handleChange = values => {
-    this.setState({ ...values });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ ...values }), 100);
   };
 
   handleUpload = e => {
@@ -166,7 +168,7 @@ class Article extends React.Component {
       // 在时间区间的最开始和到达指定间隔的时候执行一次 fn
     } else {
       this.last = now;
-    this._setWindowScrollToState(e);
+      this._setWindowScrollToState(e);
     }
   };
 

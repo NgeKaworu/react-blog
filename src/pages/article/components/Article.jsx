@@ -103,10 +103,17 @@ class Article extends React.Component {
   };
 
   handleRemoveClick = e => {
-    this.props.dispatch({
-      type: "article/remove",
-      payload: this.state.article_id
-    });
+    this.props
+      .dispatch({
+        type: "article/remove",
+        payload: this.state.article_id
+      })
+      .then(() =>
+        this.props.dispatch({
+          type: "article/reload",
+          payload: this.state.article_id
+        })
+      );
   };
 
   handleFileRemove = e => {

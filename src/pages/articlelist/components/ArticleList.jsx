@@ -14,10 +14,17 @@ class ArticleList extends React.Component {
   };
 
   handleRemoveClick = (e, article_id) => {
-    this.props.dispatch({
-      type: "article/remove",
-      payload: article_id
-    });
+    this.props
+      .dispatch({
+        type: "article/remove",
+        payload: article_id
+      })
+      .then(() =>
+        this.props.dispatch({
+          type: "page/reload",
+          payload: article_id
+        })
+      );
   };
 
   handleDetailClick = (e, article_id) => {

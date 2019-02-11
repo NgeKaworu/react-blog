@@ -26,7 +26,19 @@ export default withBreadcrumbs(routes)(({ breadcrumbs }) => (
     {breadcrumbs.map(breadcrumb => (
       <React.Fragment key={breadcrumb.key}>
         <Breadcrumb.Item>
-          <Link to={breadcrumb.props.match.url}>{breadcrumb}</Link>
+          <Link
+            replace
+            to={
+              breadcrumb.props.children === "文章"
+                ? {
+                    pathname: breadcrumb.props.location.pathname,
+                    state: { mode: "view" }
+                  }
+                : breadcrumb.props.match.url
+            }
+          >
+            {breadcrumb}
+          </Link>
         </Breadcrumb.Item>
         {breadcrumb.props.match.path === "/article/" &&
           (breadcrumb.props.location.pathname === "/article" ||

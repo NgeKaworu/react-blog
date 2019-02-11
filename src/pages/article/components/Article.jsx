@@ -81,8 +81,8 @@ class Article extends React.Component {
   };
 
   handleChange = values => {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ ...values }), 100);
+    clearTimeout(this.changeTimer);
+    this.changeTimer = setTimeout(() => this.setState({ ...values }), 100);
   };
 
   handleUpload = e => {

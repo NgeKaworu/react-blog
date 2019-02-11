@@ -35,13 +35,31 @@ class Editor extends React.Component {
 
   handleInsert = e => {
     if (!e.url) return;
-    const node = getIn(this.textarea, ["textAreaRef"]);
     const myValue = `\n![${e.name}](${e.url})`;
+    const node = getIn(this.textarea, ["textAreaRef"]);
+    const newValue = this._focusInsert(myValue, node);
+    this.props.onChange({
+      content: newValue
+    });
+  };
+
+  handleKeyDown = e => {
+    if (e.keyCode === 9) {
+      e.preventDefault();
+      const node = getIn(this.textarea, ["textAreaRef"]);
+      const newValue = this._focusInsert("    ", node);
+      this.props.onChange({
+        content: newValue
+      });
+    }
+  };
+
+  _focusInsert = (value, node) => {
     if (document.selection) {
       //IE support
       node.focus();
       let sel = document.selection.createRange();
-      sel.text = myValue;
+      sel.text = value;
       sel.select();
     } else if (node.selectionStart || node.selectionStart === 0) {
       //MOZILLA/NETSCAPE support
@@ -50,51 +68,17 @@ class Editor extends React.Component {
       const beforeValue = node.value.substring(0, startPos);
       const afterValue = node.value.substring(endPos, node.value.length);
 
-      node.value = beforeValue + myValue + afterValue;
+      node.value = beforeValue + value + afterValue;
 
-      node.selectionStart = startPos + myValue.length;
-      node.selectionEnd = startPos + myValue.length;
+      node.selectionStart = startPos + value.length;
+      node.selectionEnd = startPos + value.length;
       node.focus();
     } else {
-      node.value += myValue;
+      node.value += value;
       node.focus();
     }
-    this.props.onChange({
-      content: node.value
-    });
-  };
 
-  handleKeyDown = e => {
-    const node = getIn(this.textarea, ["textAreaRef"]);
-    if (e.keyCode === 9) {
-      e.preventDefault();
-      const myValue = `    `;
-      if (document.selection) {
-        //IE support
-        node.focus();
-        let sel = document.selection.createRange();
-        sel.text = myValue;
-        sel.select();
-      } else if (node.selectionStart || node.selectionStart === 0) {
-        //MOZILLA/NETSCAPE support
-        const startPos = node.selectionStart;
-        const endPos = node.selectionEnd;
-        const beforeValue = node.value.substring(0, startPos);
-        const afterValue = node.value.substring(endPos, node.value.length);
-
-        node.value = beforeValue + myValue + afterValue;
-
-        node.selectionStart = startPos + myValue.length;
-        node.selectionEnd = startPos + myValue.length;
-        node.focus();
-      } else {
-        node.value += myValue;
-        node.focus();
-      }
-      this.props.onChange({
-        content: node.value
-      });
-    }
+    return node.value;
   };
 
   render = () => {

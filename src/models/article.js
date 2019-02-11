@@ -1,6 +1,5 @@
 import * as articleService from "../services/article";
 import immutable from "immutable";
-import { message } from "antd";
 import router from "umi/router";
 
 const init = {

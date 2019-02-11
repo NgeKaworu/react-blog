@@ -40,6 +40,9 @@ class Article extends React.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
+    console.log(123);
+
+    window.removeEventListener("scroll", this.orderScroll);
   }
 
   handleSubmit = values => {
@@ -55,6 +58,8 @@ class Article extends React.Component {
       this.setState({
         mode: "view"
       });
+
+      window.removeEventListener("scroll", this.orderScroll);
     } else {
       this.props.dispatch({
         type: "article/create",
@@ -131,16 +136,49 @@ class Article extends React.Component {
     removefile();
   };
 
+  orderScroll = e => {
+    // 记录上次执行的时间
+    // 定时器
+    // 默认间隔为 250ms
+    const threshold = 500;
+    // 返回的函数，每过 threshold 毫秒就执行一次 fn 函数
+    let now = +new Date();
+    // 如果距离上次执行 fn 函数的时间小于 threshold，那么就放弃
+    // 执行 fn，并重新计时
+    if (this.last && now < this.last + threshold) {
+      clearTimeout(this.scroll_timer);
+      // 保证在当前时间区间结束后，再执行一次 fn
+      this.scroll_timer = setTimeout(() => {
+        this.last = now;
+        console.log(123);
+      }, threshold);
+      // 在时间区间的最开始和到达指定间隔的时候执行一次 fn
+    } else {
+      this.last = now;
+      console.log(123);
+    }
+  };
+
   render = () => {
     const { mode, content, title, owner, article_id } = this.state;
     const { user, loading, token } = this.props;
-
+    mode === "edit" && window.addEventListener("scroll", this.orderScroll);
     return (
       <Skeleton loading={loading} avatar active>
         <Row gutter={24}>
           {mode === "edit" && (
             <Col span={12}>
-              <div className={styles.wrap}>
+              <div
+                className={styles.wrap}
+                style={{
+                  width: "33%",
+                  minWidth: "288px",
+                  height: "95%",
+                  maxHeight: "1250px",
+                  position: "fixed",
+                  overflowY: "auto"
+                }}
+              >
                 <Editor
                   token={token}
                   onChange={this.handleChange}
@@ -155,7 +193,9 @@ class Article extends React.Component {
           <Col span={mode === "edit" ? 12 : 24}>
             <div
               className={styles.wrap}
-              style={{ maxHeight: "1109px", overflowY: "auto" }}
+              style={{
+                overflowY: "auto"
+              }}
             >
               <ViewerContainer
                 text={content}

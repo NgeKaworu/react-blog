@@ -20,5 +20,5 @@ export default {
   },
   base: "/blog/",
   publicPath: "/blog/",
-  history: "hash",
+  history: "hash"
 };

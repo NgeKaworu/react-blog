@@ -100,6 +100,7 @@ class Editor extends React.Component {
               placeholder="内容支持markdown"
               ref={textarea => (this.textarea = textarea)}
               onKeyDown={this.handleKeyDown}
+              onScroll={this.props.onFormScroll}
             />
           )}
         </Form.Item>

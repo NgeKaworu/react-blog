@@ -32,7 +32,7 @@ class Layout extends React.Component {
   render() {
     const { children, location, loading, user } = this.props;
     return (
-      <L>
+      <L style={{ background: "rgba(0,0,0,0)" }}>
         <CustomHeader location={location} user={user} />
         <Content
           style={{

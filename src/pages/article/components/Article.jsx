@@ -214,15 +214,17 @@ class Article extends React.Component {
                   top: 0
                 }}
               >
-                <Editor
-                  token={token}
-                  onChange={this.handleChange}
-                  onSubmit={this.handleSubmit}
-                  onUpload={this.handleUpload}
-                  onFileRemove={this.handleFileRemove}
-                  onFormScroll={this.handleFormScroll}
-                  {...this.state}
-                />
+                <div style={{ marginRight: setFixed && "-9px" }}>
+                  <Editor
+                    token={token}
+                    onChange={this.handleChange}
+                    onSubmit={this.handleSubmit}
+                    onUpload={this.handleUpload}
+                    onFileRemove={this.handleFileRemove}
+                    onFormScroll={this.handleFormScroll}
+                    {...this.state}
+                  />
+                </div>
               </div>
             </Col>
           )}

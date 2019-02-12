@@ -8,6 +8,7 @@ import styles from "../../index.less";
 import router from "umi/router";
 import request from "../../../utils/request";
 import getIn from "../../../utils/getIn";
+import { Helmet } from "react-helmet";
 
 @connect(state => ({
   article: state.article,
@@ -52,7 +53,6 @@ class Article extends React.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
-    clearTimeout(this.scrollTimer);
     window.removeEventListener("scroll", this.handleWindowScroll);
   }
 
@@ -148,26 +148,11 @@ class Article extends React.Component {
   };
 
   handleWindowScroll = e => {
-    // 记录上次执行的时间
-    // 定时器
-    // 默认间隔为 250ms
-    const threshold = 75;
-    // 返回的函数，每过 threshold 毫秒就执行一次 fn 函数
-    let now = +new Date();
-    // 如果距离上次执行 fn 函数的时间小于 threshold，那么就放弃
-    // 执行 fn，并重新计时
-    if (this.last && now < this.last + threshold) {
-      clearTimeout(this.scrollTimer);
-      // 保证在当前时间区间结束后，再执行一次 fn
-      this.scrollTimer = setTimeout(() => {
-        this.last = now;
-        this._setWindowScrollToState(e);
-      }, threshold);
-      // 在时间区间的最开始和到达指定间隔的时候执行一次 fn
-    } else {
-      this.last = now;
     this._setWindowScrollToState(e);
-    }
+  };
+
+  handleFormScroll = e => {
+    this._setWindowScrollWithRadio(e);
   };
 
   _setWindowScrollToState = e => {
@@ -177,6 +162,21 @@ class Article extends React.Component {
       "scrollTop"
     ]);
     windowScrollTop && this.setState({ windowScrollTop });
+  };
+
+  _setWindowScrollWithRadio = e => {
+    const { currentTarget: f_ct } = e;
+    const { scrollHeight: f_sh, clientHeight: f_ch, scrollTop: f_st } = f_ct;
+    const maxFormScroll = f_sh - f_ch;
+    const ratio = f_st / maxFormScroll;
+    const { scrollHeight: b_sh, clientHeight: b_ch } = document.body;
+    const maxWindowScroll = b_sh - b_ch;
+    const scrollWithRatio = ~~(ratio * maxWindowScroll);
+    window.scrollTo({
+      top: scrollWithRatio
+      // 平滑过渡, 效果不太好
+      // behavior: "smooth"
+    });
   };
 
   render = () => {
@@ -191,11 +191,13 @@ class Article extends React.Component {
     } = this.state;
     const { user, loading, token } = this.props;
     const setFixed = windowScrollTop > editorOffsetTop;
-
     mode === "edit" &&
       window.addEventListener("scroll", this.handleWindowScroll);
     return (
       <Skeleton loading={loading} avatar active>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <Row gutter={24}>
           {mode === "edit" && (
             <Col span={12}>
@@ -218,6 +220,7 @@ class Article extends React.Component {
                   onSubmit={this.handleSubmit}
                   onUpload={this.handleUpload}
                   onFileRemove={this.handleFileRemove}
+                  onFormScroll={this.handleFormScroll}
                   {...this.state}
                 />
               </div>

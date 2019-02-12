@@ -8,6 +8,7 @@ import styles from "../../index.less";
 import router from "umi/router";
 import request from "../../../utils/request";
 import getIn from "../../../utils/getIn";
+import { Helmet } from "react-helmet";
 
 @connect(state => ({
   article: state.article,
@@ -172,7 +173,7 @@ class Article extends React.Component {
     const maxWindowScroll = b_sh - b_ch;
     const scrollWithRatio = ~~(ratio * maxWindowScroll);
     window.scrollTo({
-      top: scrollWithRatio,
+      top: scrollWithRatio
       // 平滑过渡, 效果不太好
       // behavior: "smooth"
     });
@@ -194,6 +195,9 @@ class Article extends React.Component {
       window.addEventListener("scroll", this.handleWindowScroll);
     return (
       <Skeleton loading={loading} avatar active>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <Row gutter={24}>
           {mode === "edit" && (
             <Col span={12}>

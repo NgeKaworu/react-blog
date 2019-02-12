@@ -4,8 +4,8 @@ const { Header } = Layout;
 function CustomHeader({ location, user }) {
   return (
     <Header style={{ background: "rgba(255,255,255,0)", padding: "0" }}>
-      <div style={{ float: "left", display: "inline-block", width: "50px" }}>
-        <img src={require("../assets/furan.png")} alt="logo" />
+      <div style={{ float: "left", display: "inline-block", height: "50px" }}>
+        <img src={require("../assets/furan.png")} alt="logo" style={{height: '100%'}}/>
       </div>
       <Menu selectedKeys={[location.pathname]} mode="horizontal">
         <Menu.Item key="home">

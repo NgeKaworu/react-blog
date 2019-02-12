@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import CustomHeader from "./CustomHeader";
 import { Layout as L, Spin, Col, Row } from "antd";
 import withRouter from "umi/withRouter";
 import { connect } from "dva";
@@ -32,8 +32,8 @@ class Layout extends React.Component {
   render() {
     const { children, location, loading, user } = this.props;
     return (
-      <div>
-        <Header location={location} user={user} />
+      <L>
+        <CustomHeader location={location} user={user} />
         <Content
           style={{
             padding: "24px 0 24px 0",
@@ -49,7 +49,7 @@ class Layout extends React.Component {
             </Col>
           </Row>
         </Content>
-      </div>
+      </L>
     );
   }
 }

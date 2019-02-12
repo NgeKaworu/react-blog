@@ -22,44 +22,41 @@ const routes = [
   }
 ];
 
-export default withBreadcrumbs(routes)(({ breadcrumbs }) => {
-  console.log(breadcrumbs);
-  return (
-    <>
-      <Breadcrumb>
-        {breadcrumbs.map(breadcrumb => (
-          <React.Fragment key={breadcrumb.key}>
-            <Breadcrumb.Item>
-              <Link
-                replace
-                to={
-                  breadcrumb.props.children === "文章"
-                    ? {
-                        pathname: breadcrumb.props.location.pathname,
-                        state: { mode: "view" }
-                      }
-                    : breadcrumb.props.match.url
-                }
-              >
-                {breadcrumb}
-              </Link>
-              <Helmet>
-                <title>{breadcrumb.props.children}</title>
-              </Helmet>
-            </Breadcrumb.Item>
-            {breadcrumb.props.match.path === "/article/" &&
-              (breadcrumb.props.location.pathname === "/article" ||
-                breadcrumb.props.location.pathname === "/article/") && (
-                <Breadcrumb.Item>
-                  <Link to={breadcrumb.props.match.url}>新建</Link>{" "}
-                  <Helmet>
-                    <title>新建</title>
-                  </Helmet>
-                </Breadcrumb.Item>
-              )}
-          </React.Fragment>
-        ))}
-      </Breadcrumb>
-    </>
-  );
-});
+export default withBreadcrumbs(routes)(({ breadcrumbs }) => (
+  <>
+    <Breadcrumb>
+      {breadcrumbs.map(breadcrumb => (
+        <React.Fragment key={breadcrumb.key}>
+          <Breadcrumb.Item>
+            <Link
+              replace
+              to={
+                breadcrumb.props.children === "文章"
+                  ? {
+                      pathname: breadcrumb.props.location.pathname,
+                      state: { mode: "view" }
+                    }
+                  : breadcrumb.props.match.url
+              }
+            >
+              {breadcrumb}
+            </Link>
+            <Helmet>
+              <title>{breadcrumb.props.children}</title>
+            </Helmet>
+          </Breadcrumb.Item>
+          {breadcrumb.props.match.path === "/article/" &&
+            (breadcrumb.props.location.pathname === "/article" ||
+              breadcrumb.props.location.pathname === "/article/") && (
+              <Breadcrumb.Item>
+                <Link to={breadcrumb.props.match.url}>新建</Link>{" "}
+                <Helmet>
+                  <title>新建</title>
+                </Helmet>
+              </Breadcrumb.Item>
+            )}
+        </React.Fragment>
+      ))}
+    </Breadcrumb>
+  </>
+));

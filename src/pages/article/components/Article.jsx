@@ -148,10 +148,14 @@ class Article extends React.Component {
   };
 
   handleWindowScroll = e => {
+    e.preventDefault();
+    e.stopPropagation();
     this._setWindowScrollToState(e);
   };
 
   handleFormScroll = e => {
+    e.preventDefault();
+    e.stopPropagation();
     this._setWindowScrollWithRadio(e);
   };
 
@@ -161,7 +165,7 @@ class Article extends React.Component {
       "documentElement",
       "scrollTop"
     ]);
-    windowScrollTop && this.setState({ windowScrollTop });
+    this.setState({ windowScrollTop });
   };
 
   _setWindowScrollWithRadio = e => {
@@ -198,7 +202,7 @@ class Article extends React.Component {
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <Row gutter={24}>
+        <Row gutter={24} style={{ minHeight: "1250px" }}>
           {mode === "edit" && (
             <Col span={12}>
               <div

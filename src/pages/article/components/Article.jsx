@@ -148,10 +148,14 @@ class Article extends React.Component {
   };
 
   handleWindowScroll = e => {
+    e.preventDefault();
+    e.stopPropagation();
     this._setWindowScrollToState(e);
   };
 
   handleFormScroll = e => {
+    e.preventDefault();
+    e.stopPropagation();
     this._setWindowScrollWithRadio(e);
   };
 
@@ -190,7 +194,7 @@ class Article extends React.Component {
       editorOffsetTop
     } = this.state;
     const { user, loading, token } = this.props;
-    const setFixed = windowScrollTop >= editorOffsetTop;
+    const setFixed = windowScrollTop > editorOffsetTop;
     mode === "edit" &&
       window.addEventListener("scroll", this.handleWindowScroll);
     return (

@@ -173,7 +173,8 @@ class Article extends React.Component {
     const scrollWithRatio = ~~(ratio * maxWindowScroll);
     window.scrollTo({
       top: scrollWithRatio,
-      behavior: "smooth"
+      // 平滑过渡, 效果不太好
+      // behavior: "smooth"
     });
   };
 

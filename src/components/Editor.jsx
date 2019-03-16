@@ -117,7 +117,7 @@ class Editor extends React.Component {
               onRemove={this.props.onFileRemove}
               onPreview={this.handleInsert}
               headers={{
-                Authorization: this.props.token
+                Authorization: localStorage.getItem("token")
               }}
               multiple
             >

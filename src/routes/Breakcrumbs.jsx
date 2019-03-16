@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 const routes = [
   { path: "/", breadcrumb: "首页" },
   { path: "/login", breadcrumb: "登录" },
+  { path: "/archive/", breadcrumb: "归档" },
   { path: "/article/", breadcrumb: "文章" },
   {
     path: "/article/:id?",

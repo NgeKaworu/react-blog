@@ -3,8 +3,10 @@ import { Form, Icon, Input, Button } from "antd";
 import { connect } from "dva";
 import Redirect from "umi/redirect";
 import withRouter from "umi/withRouter";
-import styles from "./Login.less";
+
 import getIn from "../../../utils/getIn";
+
+import styles from "./Login.less";
 
 @connect(state => ({
   user: state.user

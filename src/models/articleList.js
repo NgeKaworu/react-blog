@@ -1,4 +1,4 @@
-import * as pageService from "../services/page";
+import * as pageService from "../services/articleList";
 
 const init = {
   page: 0,
@@ -6,7 +6,7 @@ const init = {
   list: []
 };
 export default {
-  namespace: "page",
+  namespace: "articleList",
 
   state: init,
 

@@ -1,11 +1,15 @@
 import { connect } from "dva";
 import React from "react";
-import Editor from "../../../components/Editor";
-import ViewerContainer from "../../../components/ViewerContainer";
+
+import { Editor, ViewerContainer } from "../../../components/Article";
+
 import immutable from "immutable";
 import { Row, Col, Skeleton } from "antd";
-import styles from "../../index.less";
+
+import styles from "../../../pages/index.less";
+
 import router from "umi/router";
+
 import request from "../../../utils/request";
 import getIn from "../../../utils/getIn";
 import { Helmet } from "react-helmet";

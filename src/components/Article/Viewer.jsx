@@ -11,7 +11,7 @@ import "highlight.js/styles/monokai-sublime.css";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 
-const Viewer = ({ text, title }) => {
+export default ({ text, title }) => {
   const myMarked = () => {
     // 初始化markdown
     const md = new MarkdownIt();
@@ -67,4 +67,3 @@ const Viewer = ({ text, title }) => {
     </>
   );
 };
-export default Viewer;

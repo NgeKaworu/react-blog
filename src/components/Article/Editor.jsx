@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Form, Button, Upload, Icon } from "antd";
-import getIn from "../utils/getIn";
+import getIn from "../../utils/getIn";
 import styles from "./Editor.less";
 
 const { TextArea } = Input;

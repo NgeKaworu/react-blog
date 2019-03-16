@@ -10,11 +10,13 @@ function checkStatus(response) {
     201: "创建成功",
     202: "修改成功",
     401: "权限不足",
+    403: "请重新登录",
     404: "页面未找到"
   };
   if (status_code[status]) {
     message.info(status_code[status]);
   }
+
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -22,9 +24,6 @@ function checkStatus(response) {
   const error = new Error(response.statusText);
   error.response = response;
 
-  response
-    .json()
-    .then(data => data && data.message && message.error(data.message));
   throw error;
 }
 

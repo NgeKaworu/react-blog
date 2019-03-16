@@ -13,22 +13,6 @@ const { Content } = L;
 }))
 @withRouter
 class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    const uid = localStorage.getItem("uid");
-    const token = localStorage.getItem("token");
-    const name = localStorage.getItem("name");
-    if (uid && token && name) {
-      props.dispatch({
-        type: "user/save",
-        payload: {
-          uid,
-          token,
-          name
-        }
-      });
-    }
-  }
   render() {
     const { children, location, loading, user } = this.props;
     return (

@@ -27,7 +27,7 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.user.token) {
+    if (localStorage.getItem("token")) {
       const from = getIn(this, ["props", "location", "state", "from"]) || "/";
       return <Redirect to={from} />;
     }

@@ -65,7 +65,7 @@ function CustomHeader({ location, user }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item key="login">
-            {user.token ? (
+            {user.name ? (
               <Link to="/logout">
                 <Icon type="logout" />
                 退出

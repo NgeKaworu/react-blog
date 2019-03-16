@@ -13,7 +13,6 @@ import { Helmet } from "react-helmet";
 @connect(state => ({
   article: state.article,
   user: state.user.uid,
-  token: state.user.token,
   loading: state.loading.models.article
 }))
 class Article extends React.Component {
@@ -193,7 +192,7 @@ class Article extends React.Component {
       windowScrollTop,
       editorOffsetTop
     } = this.state;
-    const { user, loading, token } = this.props;
+    const { user, loading } = this.props;
     const setFixed = windowScrollTop > editorOffsetTop;
     mode === "edit" &&
       window.addEventListener("scroll", this.handleWindowScroll);
@@ -220,7 +219,6 @@ class Article extends React.Component {
               >
                 <div style={{ marginRight: setFixed && "-9px" }}>
                   <Editor
-                    token={token}
                     onChange={this.handleChange}
                     onSubmit={this.handleSubmit}
                     onUpload={this.handleUpload}

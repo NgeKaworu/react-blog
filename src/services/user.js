@@ -10,3 +10,7 @@ export const login = values => {
 export const logout = values => {
   return request(`/api/logout/${values}`);
 };
+
+export const checkToken = values => {
+  return request(`/api/checkToken`);
+};

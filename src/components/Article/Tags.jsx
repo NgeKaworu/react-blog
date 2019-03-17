@@ -3,11 +3,7 @@ import { Tag, Input, Tooltip, Icon } from "antd";
 
 class EditableTagGroup extends React.Component {
   state = {
-    tags: [
-      "UnremovableUnremovableUnremovableUnremovableUnremovable",
-      "Tag 2",
-      "Tag 3"
-    ],
+    tags: [],
     inputVisible: false,
     inputValue: ""
   };
@@ -15,7 +11,7 @@ class EditableTagGroup extends React.Component {
   static getDerivedStateFromProps(nP, pS) {
     if (nP.tags !== pS.tags) {
       return {
-        tags: nP.tags
+        tags: nP.tags || []
       };
     }
     return null;
@@ -38,7 +34,6 @@ class EditableTagGroup extends React.Component {
   };
 
   handleInputConfirm = (e, index) => {
-    console.log(index);
     const { onChange } = this.props;
 
     const { inputValue, tags } = this.state;

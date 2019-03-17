@@ -27,7 +27,8 @@ class Article extends React.Component {
     this.state = {
       ...init,
       fileListCache: init.fileList,
-      windowScrollTop: 0
+      windowScrollTop: 0,
+      tags: []
     };
   }
 

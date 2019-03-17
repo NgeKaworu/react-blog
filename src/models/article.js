@@ -8,7 +8,8 @@ const init = {
   url: "",
   article_id: "",
   fileList: [],
-  mode: "edit"
+  mode: "edit",
+  tags: []
 };
 
 export default {

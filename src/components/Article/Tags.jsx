@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Component } from "react";
 import { Tag, Input, Tooltip, Icon } from "antd";
 
-class EditableTagGroup extends React.Component {
+class EditableTagGroup extends Component {
   state = {
     tags: [],
     inputVisible: false,

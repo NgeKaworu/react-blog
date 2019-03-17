@@ -4,13 +4,14 @@ export default {
   namespace: "archive",
 
   state: {
-    tags: {}
+    tags: []
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathname.toLowerCase() === "/archive") {
+        const parmas = pathname.split("/");
+        if (parmas[1].toLowerCase() === "archive") {
           dispatch({ type: "fetchTags", payload: { page: 1 } });
         }
       });
@@ -25,7 +26,6 @@ export default {
       { call, put }
     ) {
       const { data } = yield call(archiveServices.fetchTags, { page });
-      console.log(data);
       yield put({ type: "save", payload: { tags: data } });
     }
   },

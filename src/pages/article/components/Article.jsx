@@ -62,13 +62,14 @@ class Article extends React.Component {
 
   handleSubmit = values => {
     const { title, content, upload } = values;
+    const { tags } = this.state;
     const fileList =
       upload && upload.filter(file => !file.status || file.status === "done");
     const { article_id } = this.state;
     if (article_id) {
       this.props.dispatch({
         type: "article/update",
-        payload: { id: article_id, values: { title, content, fileList } }
+        payload: { id: article_id, values: { title, content, fileList, tags } }
       });
       this.setState({
         mode: "view"
@@ -78,13 +79,19 @@ class Article extends React.Component {
     } else {
       this.props.dispatch({
         type: "article/create",
-        payload: { title, content, fileList }
+        payload: { title, content, fileList, tags }
       });
     }
   };
 
   handleChange = values => {
     this.setState({ ...values });
+  };
+
+  handleTagsChange = ({ tags }) => {
+    this.setState({
+      tags
+    });
   };
 
   handleUpload = e => {
@@ -137,7 +144,7 @@ class Article extends React.Component {
   };
 
   handleTagClick = e => {
-    router.push(`/archive/${e.currentTarget.innerText}`)
+    router.push(`/archive/${e.currentTarget.innerText}`);
   };
 
   handleFileRemove = e => {
@@ -231,6 +238,7 @@ class Article extends React.Component {
                 <div style={{ marginRight: setFixed && "-9px" }}>
                   <Editor
                     onChange={this.handleChange}
+                    onTagsChange={this.handleTagsChange}
                     onSubmit={this.handleSubmit}
                     onUpload={this.handleUpload}
                     onFileRemove={this.handleFileRemove}

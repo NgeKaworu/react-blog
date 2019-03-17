@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Form, Button, Upload, Icon } from "antd";
-import Tags from './Tags'
+import Tags from "./Tags";
 
 import getIn from "../../utils/getIn";
 import styles from "./Editor.less";
@@ -84,8 +84,8 @@ class Editor extends React.Component {
   };
 
   render = () => {
-    console.log(this)
     const { getFieldDecorator } = this.props.form;
+    const { tags, onTagsChange } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item label="标题">
@@ -94,7 +94,7 @@ class Editor extends React.Component {
           })(<Input placeholder="请输入标题" />)}
         </Form.Item>
         <Form.Item>
-          <Tags />
+          <Tags tags={tags} onChange={onTagsChange} />
         </Form.Item>
         <Form.Item label="内容">
           {getFieldDecorator("content", {

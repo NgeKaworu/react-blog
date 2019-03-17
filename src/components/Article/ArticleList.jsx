@@ -34,6 +34,7 @@ class ArchiveList extends React.Component {
     });
   };
 
+
   handleTagClick = (e, article_id) => {
     router.push(`/archive/${e.currentTarget.innerText}`)
   };

@@ -19,9 +19,7 @@ export default {
         const page = Number(parmas[1]) || 1;
         if (!isNaN(page) && parmas.length < 3) {
           dispatch({ type: "fetch", payload: { page } });
-        }
-
-        if (parmas[1].toLowerCase() === "archive") {
+        } else if (parmas[1].toLowerCase() === "archive") {
           const tag = parmas[2];
           const page = Number(parmas[3]) || 1;
           dispatch({ type: "fetch", payload: { page, tag } });

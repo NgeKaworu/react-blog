@@ -1,8 +1,7 @@
-import { ArticleList, Tags } from "../../../../components/Article";
+import { ArticleList } from "../../../../components/Article";
 
 export default () => (
   <>
-    <Tags />
     <ArticleList />
   </>
 );

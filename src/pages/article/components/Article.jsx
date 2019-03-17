@@ -22,6 +22,7 @@ import { Helmet } from "react-helmet";
 class Article extends React.Component {
   constructor(props) {
     super(props);
+
     const init = { ...this.props.article.toJS() };
     this.state = {
       ...init,
@@ -135,6 +136,10 @@ class Article extends React.Component {
       );
   };
 
+  handleTagClick = e => {
+    router.push(`/archive/${e.currentTarget.innerText}`)
+  };
+
   handleFileRemove = e => {
     async function removefile() {
       await request(`/api/files/v1/${e.uid}`, {
@@ -194,8 +199,10 @@ class Article extends React.Component {
       owner,
       article_id,
       windowScrollTop,
-      editorOffsetTop
+      editorOffsetTop,
+      tags
     } = this.state;
+
     const { user, loading } = this.props;
     const setFixed = windowScrollTop > editorOffsetTop;
     mode === "edit" &&
@@ -242,6 +249,7 @@ class Article extends React.Component {
               }}
             >
               <ViewerContainer
+                tags={tags}
                 text={content}
                 title={title || "新建"}
                 className={styles.wrap}
@@ -249,6 +257,7 @@ class Article extends React.Component {
                 edit={owner === user && mode !== "edit"}
                 onEditClick={this.handleEditClick}
                 onRemoveClick={this.handleRemoveClick}
+                onTagClick={this.handleTagClick}
               />
             </div>
           </Col>

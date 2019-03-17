@@ -34,8 +34,12 @@ class ArchiveList extends React.Component {
     });
   };
 
+  handleTagClick = (e, article_id) => {
+    router.push(`/archive/${e.currentTarget.innerText}`)
+  };
+
   render() {
-    const { user, articleList } = this.props;
+    const { uid, articleList } = this.props;
     const { list } = articleList;
     return (
       <>
@@ -44,12 +48,14 @@ class ArchiveList extends React.Component {
             <ViewerContainer
               title={i.title}
               text={i.content}
+              tags={i.tags}
               detail
-              remove={i.owner === user}
-              edit={i.owner === user}
+              remove={i.owner === uid}
+              edit={i.owner === uid}
               onDetailClick={e => this.handleDetailClick(e, i._id)}
               onEditClick={e => this.handleEditClick(e, i._id)}
               onRemoveClick={e => this.handleRemoveClick(e, i._id)}
+              onTagClick={e => this.handleTagClick(e, i._id)}
             />
           </div>
         ))}

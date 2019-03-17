@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import Login from "./components/Login";
-import styles from "../index.less";
+import styles from "../../pages/index.less";
 function LoginPage() {
   return (
     <div

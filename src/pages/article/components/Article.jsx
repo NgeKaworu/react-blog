@@ -1,11 +1,15 @@
 import { connect } from "dva";
 import React from "react";
-import Editor from "../../../components/Editor";
-import ViewerContainer from "../../../components/ViewerContainer";
+
+import { Editor, ViewerContainer } from "../../../components/Article";
+
 import immutable from "immutable";
 import { Row, Col, Skeleton } from "antd";
-import styles from "../../index.less";
+
+import styles from "../../../pages/index.less";
+
 import router from "umi/router";
+
 import request from "../../../utils/request";
 import getIn from "../../../utils/getIn";
 import { Helmet } from "react-helmet";
@@ -18,6 +22,7 @@ import { Helmet } from "react-helmet";
 class Article extends React.Component {
   constructor(props) {
     super(props);
+
     const init = { ...this.props.article.toJS() };
     this.state = {
       ...init,
@@ -57,13 +62,14 @@ class Article extends React.Component {
 
   handleSubmit = values => {
     const { title, content, upload } = values;
+    const { tags } = this.state;
     const fileList =
       upload && upload.filter(file => !file.status || file.status === "done");
     const { article_id } = this.state;
     if (article_id) {
       this.props.dispatch({
         type: "article/update",
-        payload: { id: article_id, values: { title, content, fileList } }
+        payload: { id: article_id, values: { title, content, fileList, tags } }
       });
       this.setState({
         mode: "view"
@@ -73,13 +79,19 @@ class Article extends React.Component {
     } else {
       this.props.dispatch({
         type: "article/create",
-        payload: { title, content, fileList }
+        payload: { title, content, fileList, tags }
       });
     }
   };
 
   handleChange = values => {
     this.setState({ ...values });
+  };
+
+  handleTagsChange = ({ tags }) => {
+    this.setState({
+      tags
+    });
   };
 
   handleUpload = e => {
@@ -129,6 +141,10 @@ class Article extends React.Component {
           payload: this.state.article_id
         })
       );
+  };
+
+  handleTagClick = e => {
+    router.push(`/archive/${e.currentTarget.innerText}`);
   };
 
   handleFileRemove = e => {
@@ -190,8 +206,10 @@ class Article extends React.Component {
       owner,
       article_id,
       windowScrollTop,
-      editorOffsetTop
+      editorOffsetTop,
+      tags
     } = this.state;
+
     const { user, loading } = this.props;
     const setFixed = windowScrollTop > editorOffsetTop;
     mode === "edit" &&
@@ -220,6 +238,7 @@ class Article extends React.Component {
                 <div style={{ marginRight: setFixed && "-9px" }}>
                   <Editor
                     onChange={this.handleChange}
+                    onTagsChange={this.handleTagsChange}
                     onSubmit={this.handleSubmit}
                     onUpload={this.handleUpload}
                     onFileRemove={this.handleFileRemove}
@@ -238,6 +257,7 @@ class Article extends React.Component {
               }}
             >
               <ViewerContainer
+                tags={tags}
                 text={content}
                 title={title || "新建"}
                 className={styles.wrap}
@@ -245,6 +265,7 @@ class Article extends React.Component {
                 edit={owner === user && mode !== "edit"}
                 onEditClick={this.handleEditClick}
                 onRemoveClick={this.handleRemoveClick}
+                onTagClick={this.handleTagClick}
               />
             </div>
           </Col>

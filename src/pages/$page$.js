@@ -1,2 +1,3 @@
-import ArticleList from "./articlelist";
+import { ArticleList } from "../components/Article";
+
 export default () => <ArticleList />;

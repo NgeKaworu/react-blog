@@ -13,7 +13,10 @@ export default {
   ],
   proxy: {
     "/api": {
+      // 本地
       target: "http://localhost:5000/",
+      // 线上
+      // target: "http://api.furan.xyz/",
       changeOrigin: true,
       pathRewrite: { "^/api": "" }
     }

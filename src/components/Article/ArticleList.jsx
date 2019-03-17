@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "dva";
-import ViewerContainer from "../../../components/ViewerContainer";
-import styles from "../../index.less";
+import ViewerContainer from "./ViewerContainer";
+import styles from "../../pages/index.less";
 import router from "umi/router";
 
-@connect(state => ({ page: state.page, user: state.user.uid }))
-class ArticleList extends React.Component {
+@connect(({ articleList, user: { uid } }) => ({ articleList, uid }))
+class ArchiveList extends React.Component {
   handleEditClick = (e, article_id) => {
     router.push({
       pathname: `/article/${article_id}`,
@@ -21,7 +21,7 @@ class ArticleList extends React.Component {
       })
       .then(() =>
         this.props.dispatch({
-          type: "page/reload",
+          type: "articleList/reload",
           payload: article_id
         })
       );
@@ -34,22 +34,29 @@ class ArticleList extends React.Component {
     });
   };
 
+
+  handleTagClick = (e, article_id) => {
+    router.push(`/archive/${e.currentTarget.innerText}`)
+  };
+
   render() {
-    const { user } = this.props;
-    const { list } = this.props.page;
+    const { uid, articleList } = this.props;
+    const { list } = articleList;
     return (
       <>
         {list.map(i => (
-          <div className={styles.wrap} key={i._id}>
+          <div className={styles["wrap"]} key={i._id}>
             <ViewerContainer
               title={i.title}
               text={i.content}
+              tags={i.tags}
               detail
-              remove={i.owner === user}
-              edit={i.owner === user}
+              remove={i.owner === uid}
+              edit={i.owner === uid}
               onDetailClick={e => this.handleDetailClick(e, i._id)}
               onEditClick={e => this.handleEditClick(e, i._id)}
               onRemoveClick={e => this.handleRemoveClick(e, i._id)}
+              onTagClick={e => this.handleTagClick(e, i._id)}
             />
           </div>
         ))}
@@ -58,4 +65,4 @@ class ArticleList extends React.Component {
   }
 }
 
-export default ArticleList;
+export default ArchiveList;

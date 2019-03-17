@@ -11,7 +11,7 @@ import "highlight.js/styles/monokai-sublime.css";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 
-const Viewer = ({ text, title }) => {
+export default ({ text }) => {
   const myMarked = () => {
     // 初始化markdown
     const md = new MarkdownIt();
@@ -47,24 +47,9 @@ const Viewer = ({ text, title }) => {
     return { __html: md.render(text) };
   };
   return (
-    <>
-      {title && (
-        <h2
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            paddingBottom: "21.5px"
-          }}
-        >
-          {title}
-        </h2>
-      )}
-      <div
-        style={{ wordWrap: "break-word" }}
-        dangerouslySetInnerHTML={myMarked()}
-      />
-    </>
+    <div
+      style={{ wordWrap: "break-word" }}
+      dangerouslySetInnerHTML={myMarked()}
+    />
   );
 };
-export default Viewer;

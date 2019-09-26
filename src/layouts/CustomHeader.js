@@ -30,13 +30,13 @@ function CustomHeader({ location, user }) {
           }
         >
           <Menu.Item key="vue">
-            <a href="http://furan.xyz/vue">
+            <a href="https://furan.xyz/vue">
               <Icon type="export" />
               Vue demos
             </a>
           </Menu.Item>
           <Menu.Item key="react">
-            <a href="http://furan.xyz/react">
+            <a href="https://furan.xyz/react">
               <Icon type="export" />
               React demos
             </a>

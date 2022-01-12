@@ -11,7 +11,7 @@
     "highlight.js": "^9.14.2",
     "immutable": "^4.0.0-rc.12",
     "katex": "^0.10.0",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "markdown-it-texmath": "^0.5.4",
     "react-helmet": "^5.2.0",
     "react-router-breadcrumbs-hoc": "^2.3.1",
